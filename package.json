@@ -15,9 +15,11 @@
     "@heroui/input": "^2.4.28",
     "@heroui/react": "^2.8.5",
     "@heroui/theme": "^2.4.23",
+    "@theme-toggles/react": "^4.1.0",
     "framer-motion": "^12.23.22",
     "motion": "^12.23.22",
     "next": "15.5.4",
+    "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
