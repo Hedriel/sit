@@ -1,21 +1,18 @@
 // app/components/ThemeSwitcher.tsx
 "use client";
-import "@theme-toggles/react/css/Classic.css";
 
 import { useTheme } from "next-themes";
-import { Classic } from "@theme-toggles/react";
+import { Moon, Sun } from "lucide-react";
 
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <Classic
-      className="text-4xl"
-      toggled={theme === "dark"}
-      toggle={() => setTheme(theme === "dark" ? "light" : "dark")}
-      placeholder={theme === "dark" ? "Light Mode" : "Dark Mode"}
-      onPointerEnterCapture={() => {}}
-      onPointerLeaveCapture={() => {}}
-    />
+    <button
+      className="absolute top-4 right-4"
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+    >
+      {theme === "dark" ? <Sun size={28} /> : <Moon size={28} />}
+    </button>
   );
 }
