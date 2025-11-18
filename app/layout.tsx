@@ -17,7 +17,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
         <Providers>
-          <ThemeSwitcher />
+          <header className="flex justify-between items-center p-4 relative">
+            <h1 className="text-2xl font-bold">Sistema Integral de Turnos</h1>
+            <ThemeSwitcher />
+          </header>
           {children}
         </Providers>
       </body>

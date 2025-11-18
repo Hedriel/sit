@@ -18,7 +18,7 @@ export function ThemeSwitcher() {
 
   return (
     <button
-      className="absolute top-4 right-4 cursor-pointer"
+      className="cursor-pointer"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "dark" ? <Sun size={28} /> : <Moon size={28} />}
