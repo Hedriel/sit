@@ -2,9 +2,8 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-const supabase = await createClient();
-
 export const isLoggedIn = async () => {
+  const supabase = await createClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -12,6 +11,7 @@ export const isLoggedIn = async () => {
 };
 
 export async function loginOut() {
+  const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
   redirect("/sing-in");
 }
