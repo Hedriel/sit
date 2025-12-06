@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Providers } from "./providers";
-import { ThemeSwitcher } from "./providers/UIProvider/ThemeSwitcher";
+import { Providers } from "../providers";
+import { ThemeSwitcher } from "../providers/UIProvider/ThemeSwitcher";
 import LogOut from "@/_auth/components/LogOut";
 
 export const metadata: Metadata = {

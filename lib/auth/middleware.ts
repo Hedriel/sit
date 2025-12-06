@@ -35,19 +35,30 @@ export async function updateSession(request: NextRequest) {
 
   // IMPORTANT: Don't remove getClaims()
   const { data } = await supabase.auth.getClaims();
+  
+  console.log(data, "user");
 
   const user = data?.claims;
 
-  console.log(user);
+  if (user) {
+    if (
+      request.nextUrl.pathname.startsWith("/sign-in") ||
+      request.nextUrl.pathname.startsWith("/sign-up")
+    ) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.redirect(url);
+    }
+  }
 
   if (
     !user &&
-    !request.nextUrl.pathname.startsWith("/sing-in") &&
-    !request.nextUrl.pathname.startsWith("/sing-up")
+    !request.nextUrl.pathname.startsWith("/sign-in") &&
+    !request.nextUrl.pathname.startsWith("/sign-up")
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
-    url.pathname = "/sing-in";
+    url.pathname = "/sign-in";
     return NextResponse.redirect(url);
   }
 

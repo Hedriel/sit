@@ -2,10 +2,6 @@
 
 import { Form, Input, Button } from "@heroui/react";
 
-interface ForgotPasswordFormProps {
-  onBackClick: () => void;
-}
-
 export default function ForgotPasswordForm() {
   return (
     <>

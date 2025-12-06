@@ -1,8 +1,8 @@
 "use client";
 
-import { Form, Input, Button, Link } from "@heroui/react";
-import { login } from "../../actions/login";
 import { useActionState } from "react";
+import { Form, Input, Button, Spinner } from "@heroui/react";
+import { login } from "@/lib/auth/actions/login";
 
 interface LoginFormProps {
   onForgotPasswordClick: () => void;
@@ -49,22 +49,14 @@ export default function LoginForm({ onForgotPasswordClick }: LoginFormProps) {
           type="submit"
           className="w-full"
         >
-          Iniciar sesión
+          {isPending ? <Spinner size="sm" color="white" /> : "Iniciar sesión"}
         </Button>
       </Form>
       {state && (
         <div className="text-center mt-4">
-          <p className="text-xs text-red-600">{state.message}</p>
+          <p className="text-sm text-red-600">{state.message}</p>
         </div>
       )}
-      {/* <div className="flex gap-1 justify-center w-full pt-4">
-        <span className="text-xs text-default-500 dark:text-white">
-          No tienes una cuenta?
-        </span>
-        <Link href="/sing-up" className="text-xs text-primary">
-          Registrarse
-        </Link>
-      </div> */}
     </>
   );
 }

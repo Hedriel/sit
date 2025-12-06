@@ -1,11 +1,7 @@
-import { createClient } from "@/utils/supabase/server";
+import { getInstruments } from "@/lib/data-access-layer/instruments";
 
 export default async function Instruments() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("instrument").select();
-
-  console.log(data, "data");
-  console.log(error, "error");
+  const { data, error } = await getInstruments();
 
   if (error) {
     return <div>Error: {error.message}</div>;
