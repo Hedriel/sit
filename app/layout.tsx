@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "../providers";
 import { ThemeSwitcher } from "../providers/UIProvider/ThemeSwitcher";
-import LogOut from "@/_auth/components/LogOut";
+import LogOut from "@/components/auth/LogOutButton";
 
 export const metadata: Metadata = {
   title: "Sistema Integral de Turnos",
