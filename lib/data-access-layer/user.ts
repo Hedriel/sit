@@ -1,17 +1,18 @@
 "use server";
 import { createClient } from "@/lib/auth/server";
-import { checkAuth } from "../auth/check-session";
 import { redirectToLogin } from "../utils";
 
 export async function getUserProfile() {
-  const userClaims = await checkAuth();
-  !userClaims && redirectToLogin();
-
   const supabase = await createClient();
 
-  const { data: users } = await supabase.from("profiles").select("*");
+  // Verificar autenticación con el mismo cliente
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (!user) {
+    redirectToLogin();
+  }
 
-  console.log("profile", users);
+  const { data: users } = await supabase.from("profiles").select("*");
 
   return { users };
 }
