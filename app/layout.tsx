@@ -16,9 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="antialiased p-4 ">
         <Providers>
-          <header className="flex justify-between items-center p-4 relative">
+          <header className="flex justify-between items-center relative">
             <h1 className="text-2xl font-bold">Sistema Integral de Turnos</h1>
             <div className="flex gap-2">
               <LogOut />
