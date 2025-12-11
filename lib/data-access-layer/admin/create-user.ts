@@ -1,11 +1,11 @@
 "use server";
 
-import { createClient } from "@/lib/auth/server";
+import { getAuthenticatedClient } from "@/lib/auth/helpers";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function createUser(previousState: unknown, formData: FormData) {
-  const supabase = await createClient();
+  // Verificar que el usuario esté autenticado antes de permitir crear usuarios
+  const { supabase, user } = await getAuthenticatedClient();
 
   const email = formData.get("email") as string;
   const first_name = formData.get("first_name") as string;
@@ -26,18 +26,36 @@ export async function createUser(previousState: unknown, formData: FormData) {
   });
 
   if (error) {
-    console.log(error);
+    console.error("Error al crear usuario:", error);
+    
     if (error.code === "invalid_credentials") {
       return {
-        message: "Credenciales invalidas",
-        fieldData: { email, first_name, last_name, role, password },
+        success: false,
+        message: "Credenciales inválidas",
+        fieldData: { email, first_name, last_name, role },
       };
     }
+    
+    if (error.code === "user_already_exists") {
+      return {
+        success: false,
+        message: "El email ya está registrado",
+        fieldData: { email, first_name, last_name, role },
+      };
+    }
+    
     return {
-      message: "Algo salio mal, vuelve a intentar nuevamente",
-      fieldData: { email },
+      success: false,
+      message: "Algo salió mal, vuelve a intentar nuevamente",
+      fieldData: { email, first_name, last_name, role },
     };
-  } else {
-    revalidatePath("/admin");
   }
+
+  revalidatePath("/admin");
+  
+  return {
+    success: true,
+    message: "Usuario creado exitosamente",
+    data: data.user,
+  };
 }

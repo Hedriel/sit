@@ -1,18 +1,13 @@
 "use server";
-import { createClient } from "@/lib/auth/server";
-import { redirectToLogin } from "../utils";
+import { withAuth } from "@/lib/auth/helpers";
 
 export async function getUserProfile() {
-  const supabase = await createClient();
+  return withAuth(async (supabase) => {
+    const { data: users } = await supabase
+      .from("profiles")
+      .select("id, first_name, last_name, role, created_at")
+      .order("created_at", { ascending: false });
 
-  // Verificar autenticación con el mismo cliente
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) {
-    redirectToLogin();
-  }
-
-  const { data: users } = await supabase.from("profiles").select("*");
-
-  return { users };
+    return { users };
+  });
 }
