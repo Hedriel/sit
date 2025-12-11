@@ -24,14 +24,3 @@ export async function getAuthenticatedClient() {
     user: data.claims,
   };
 }
-
-/**
- * Wrapper para ejecutar queries autenticadas
- * Maneja la autenticación automáticamente
- */
-export async function withAuth<T>(
-  callback: (supabase: Awaited<ReturnType<typeof createClient>>) => Promise<T>
-): Promise<T> {
-  const { supabase } = await getAuthenticatedClient();
-  return callback(supabase);
-}
