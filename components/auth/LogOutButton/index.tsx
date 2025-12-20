@@ -1,10 +1,10 @@
 import { logout } from "@/lib/auth/actions/logout";
 import { Button } from "@heroui/button";
-import { checkAuth } from "@/lib/auth/check-session";
+import { getUser } from "@/lib/auth/helper";
 
 export default async function LogOut() {
-  const isLoggedIn = await checkAuth();
-  if (!isLoggedIn) return null;
+  const { user } = await getUser();
+  if (!user) return null;
 
   return (
     <Button color="danger" onPress={logout}>

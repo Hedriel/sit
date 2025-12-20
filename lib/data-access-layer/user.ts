@@ -1,17 +1,10 @@
 "use server";
-import { createClient } from "@/lib/auth/server";
-import { checkAuth } from "../auth/check-session";
-import { redirectToLogin } from "../utils";
+import { getAuthenticatedClient } from "../auth/helper";
 
-export async function getUserProfile() {
-  const userClaims = await checkAuth();
-  !userClaims && redirectToLogin();
-
-  const supabase = await createClient();
+export async function getUsers() {
+  const { supabase } = await getAuthenticatedClient();
 
   const { data: users } = await supabase.from("profiles").select("*");
-
-  console.log("profile", users);
 
   return { users };
 }
