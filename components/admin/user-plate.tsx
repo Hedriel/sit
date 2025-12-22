@@ -12,7 +12,7 @@ interface UserPlateProps {
 export default function UserPlate({ users }: UserPlateProps) {
   return (
     <>
-      <div className="space-y-2 gap-2 py-2 border-r border-gray-200 col-span-2 my-2">
+      <div className="space-y-2 gap-2 py-2 border-r border-gray-200 my-2">
         {users.map((user, index) => (
           <div className="flex items-center gap-2" key={index}>
             <Chip

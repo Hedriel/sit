@@ -13,7 +13,7 @@ import { createUser } from "@/lib/data-access-layer/admin/create-user";
 export default function UserForm() {
   const [state, formAction, isPending] = useActionState(createUser, undefined);
   return (
-    <Card className="items-center justify-center mx-auto min-w-md p-12  mt-20 col-span-3 h-fit">
+    <Card className="items-center justify-center mx-auto min-w-md p-12  mt-20 h-fit">
       <h1 className="text-2xl font-bold text-center  ">Crear Usuario</h1>
       <Form className="w-full max-w-xs flex flex-col " action={formAction}>
         <Input
