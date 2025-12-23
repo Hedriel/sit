@@ -17,17 +17,17 @@ export async function getAuthenticatedClient() {
   };
 }
 
-export async function getUser() {
+export async function getSession() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getClaims();
 
   if (error || !data?.claims) {
     return {
-      user: null,
+      session: null,
     };
   }
 
   return {
-    user: data.claims,
+    session: data.claims,
   };
 }

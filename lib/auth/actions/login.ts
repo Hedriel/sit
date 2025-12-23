@@ -14,7 +14,6 @@ export async function login(previousState: unknown, formData: FormData) {
   });
 
   if (error) {
-    console.log(error);
     if (error.code === "invalid_credentials") {
       return { message: "Credenciales invalidas", fieldData: { username } };
     }

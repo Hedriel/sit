@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "../providers";
-import { ThemeSwitcher } from "../providers/UIProvider/ThemeSwitcher";
-import LogOut from "@/components/auth/LogOutButton";
+import NavBar from "@/components/global/NavBar";
 
 export const metadata: Metadata = {
   title: "Sistema Integral de Turnos",
@@ -18,13 +17,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased p-4 ">
         <Providers>
-          <header className="flex justify-between items-center relative">
-            <h1 className="text-2xl font-bold">Sistema Integral de Turnos</h1>
-            <div className="flex gap-2">
-              <LogOut />
-              <ThemeSwitcher />
-            </div>
-          </header>
+          <NavBar />
           {children}
         </Providers>
       </body>

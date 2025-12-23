@@ -1,9 +1,9 @@
 import { logout } from "@/lib/auth/actions/logout";
 import { Button } from "@heroui/button";
-import { getUser } from "@/lib/auth/helper";
+import { getSession } from "@/lib/auth/helper";
 
 export default async function LogOut() {
-  const { user } = await getUser();
+  const { session: user } = await getSession();
   if (!user) return null;
 
   return (

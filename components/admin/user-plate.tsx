@@ -1,7 +1,7 @@
 "use client";
 import { Chip } from "@heroui/react";
 
-interface UserPlateProps {
+interface UserListProps {
   users: {
     first_name: string;
     last_name: string;
@@ -9,7 +9,7 @@ interface UserPlateProps {
   }[];
 }
 
-export default function UserPlate({ users }: UserPlateProps) {
+export default function UserList({ users }: UserListProps) {
   return (
     <>
       <div className="space-y-2 gap-2 py-2 border-r border-gray-200 my-2">

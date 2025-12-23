@@ -8,3 +8,15 @@ export async function getUsers() {
 
   return { users };
 }
+
+export async function getUserById(id: string) {
+  const { supabase } = await getAuthenticatedClient();
+
+  const { data: user } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  return { user };
+}

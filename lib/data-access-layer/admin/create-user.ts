@@ -2,7 +2,6 @@
 
 import { createClient } from "@/lib/auth/server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function createUser(previousState: unknown, formData: FormData) {
   const supabase = await createClient();
@@ -26,7 +25,6 @@ export async function createUser(previousState: unknown, formData: FormData) {
   });
 
   if (error) {
-    console.log(error);
     if (error.code === "invalid_credentials") {
       return {
         message: "Credenciales invalidas",
