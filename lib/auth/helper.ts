@@ -31,3 +31,30 @@ export async function getSession() {
     session: data.claims,
   };
 }
+
+export async function getUserProfile() {
+  const { session } = await getSession();
+
+  if (!session) {
+    return null;
+  }
+
+  const userId = session?.sub;
+
+  const supabase = await createClient();
+
+  const { data: user, error } = await supabase
+    .from("profiles")
+    .select("first_name, last_name, avatar_url")
+    .eq("id", userId)
+    .single();
+
+  if (error || !user) {
+    return null;
+  }
+
+  return {
+    ...user,
+    email: session?.email,
+  };
+}
