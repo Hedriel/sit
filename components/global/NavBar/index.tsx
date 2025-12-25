@@ -10,7 +10,7 @@ export default async function NavBar() {
 
   return (
     <nav className="flex justify-between items-center relative">
-      <h1 className="text-2xl font-bold">Sistema Integral de Turnos</h1>
+      <h1 className="text-2xl font-bold">S.I.T</h1>
       <div className="flex gap-4">
         <ThemeSwitcher />
         {data && (
