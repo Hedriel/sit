@@ -1,11 +1,15 @@
+import BreadCrumb from "@/components/admin/BreadCrumb";
 import UserPlate from "@/components/admin/UserList";
+import UsersTable from "@/components/admin/UsersTable";
 // import UserForm from "@/components/admin/UserForm";
 import { getUsers } from "@/lib/data-access-layer/users";
 export default async function AdminPage() {
   const { users } = await getUsers();
   return (
     <div>
-      <UserPlate users={users || []} />
+      <BreadCrumb />
+      {/* <UserPlate users={users || []} /> */}
+      <UsersTable />
       {/* TODO: Listado de usuarios con ABM
       <UserList />
       */}
