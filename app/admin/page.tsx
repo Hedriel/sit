@@ -1,4 +1,4 @@
-import UserPlate from "@/components/admin/user-plate";
+import UserPlate from "@/components/admin/UserList";
 // import UserForm from "@/components/admin/UserForm";
 import { getUsers } from "@/lib/data-access-layer/users";
 export default async function AdminPage() {

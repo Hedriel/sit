@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import { Manrope } from "next/font/google";
+
 import { Providers } from "../providers";
 import NavBar from "@/components/global/NavBar";
+
+import "./globals.css";
+
+const manrope = Manrope({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Sistema Integral de Turnos",
@@ -15,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased p-4 ">
+      <body className={`antialiased p-4 ${manrope.className}`}>
         <Providers>
           <NavBar />
           {children}
