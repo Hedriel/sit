@@ -3,8 +3,9 @@
 // TODO: Javascript should be on own utils file.
 // TODO: Icons should be on own utils file.
 // TODO: Table schema should be adapted to user schema.
-import type { SVGProps } from "react";
+
 import type { Selection, ChipProps, SortDescriptor } from "@heroui/react";
+import { EllipsisVertical } from "lucide-react";
 
 import React from "react";
 import {
@@ -14,7 +15,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Input,
   Button,
   DropdownTrigger,
   Dropdown,
@@ -24,127 +24,7 @@ import {
   User,
   Pagination,
 } from "@heroui/react";
-
-export type IconSvgProps = SVGProps<SVGSVGElement> & {
-  size?: number;
-};
-
-export function capitalize(s: string) {
-  return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "";
-}
-
-export const PlusIcon = ({
-  size = 24,
-  width,
-  height,
-  ...props
-}: IconSvgProps) => {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height={size || height}
-      role="presentation"
-      viewBox="0 0 24 24"
-      width={size || width}
-      {...props}
-    >
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-      >
-        <path d="M6 12h12" />
-        <path d="M12 18V6" />
-      </g>
-    </svg>
-  );
-};
-
-export const VerticalDotsIcon = ({
-  size = 24,
-  width,
-  height,
-  ...props
-}: IconSvgProps) => {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height={size || height}
-      role="presentation"
-      viewBox="0 0 24 24"
-      width={size || width}
-      {...props}
-    >
-      <path
-        d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-};
-
-export const SearchIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height="1em"
-      role="presentation"
-      viewBox="0 0 24 24"
-      width="1em"
-      {...props}
-    >
-      <path
-        d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-      />
-      <path
-        d="M22 22L20 20"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-};
-
-export const ChevronDownIcon = ({
-  strokeWidth = 1.5,
-  ...otherProps
-}: IconSvgProps) => {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height="1em"
-      role="presentation"
-      viewBox="0 0 24 24"
-      width="1em"
-      {...otherProps}
-    >
-      <path
-        d="m19.92 8.95-6.52 6.52c-.77.77-2.03.77-2.8 0L4.08 8.95"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeMiterlimit={10}
-        strokeWidth={strokeWidth}
-      />
-    </svg>
-  );
-};
+import TopContent from "./components/TopContent";
 
 export const columns = [
   { name: "ID", uid: "id", sortable: true },
@@ -154,12 +34,6 @@ export const columns = [
   { name: "EMAIL", uid: "email" },
   { name: "STATUS", uid: "status", sortable: true },
   { name: "ACTIONS", uid: "actions" },
-];
-
-export const statusOptions = [
-  { name: "Active", uid: "active" },
-  { name: "Paused", uid: "paused" },
-  { name: "Vacation", uid: "vacation" },
 ];
 
 export const users = [
@@ -410,14 +284,6 @@ export default function UsersTable() {
         user.name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
-    if (
-      statusFilter !== "all" &&
-      Array.from(statusFilter).length !== statusOptions.length
-    ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status)
-      );
-    }
 
     return filteredUsers;
   }, [users, filterValue, statusFilter]);
@@ -480,7 +346,7 @@ export default function UsersTable() {
           <Dropdown>
             <DropdownTrigger>
               <Button isIconOnly size="sm" variant="light">
-                <VerticalDotsIcon className="text-default-300" />
+                <EllipsisVertical className="text-default-300" />
               </Button>
             </DropdownTrigger>
             <DropdownMenu>
@@ -529,101 +395,6 @@ export default function UsersTable() {
     setPage(1);
   }, []);
 
-  const topContent = React.useMemo(() => {
-    return (
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
-          <Input
-            isClearable
-            className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
-            startContent={<SearchIcon />}
-            value={filterValue}
-            onClear={() => onClear()}
-            onValueChange={onSearchChange}
-          />
-          <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                >
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />}>
-              Add New
-            </Button>
-          </div>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
-            Total {users.length} users
-          </span>
-          <label className="flex items-center text-default-400 text-small">
-            Rows per page:
-            <select
-              className="bg-transparent outline-solid outline-transparent text-default-400 text-small"
-              onChange={onRowsPerPageChange}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </label>
-        </div>
-      </div>
-    );
-  }, [
-    filterValue,
-    statusFilter,
-    visibleColumns,
-    onSearchChange,
-    onRowsPerPageChange,
-    users.length,
-    hasSearchFilter,
-  ]);
-
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
@@ -670,12 +441,19 @@ export default function UsersTable() {
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "max-h-[382px]",
+        wrapper: "max-h-[482px]",
       }}
       selectedKeys={selectedKeys}
-      selectionMode="multiple"
       sortDescriptor={sortDescriptor}
-      topContent={topContent}
+      topContent={
+        <TopContent
+          filterValue={filterValue}
+          onClear={onClear}
+          onSearchChange={onSearchChange}
+          onRowsPerPageChange={onRowsPerPageChange}
+          users={users}
+        />
+      }
       topContentPlacement="outside"
       onSelectionChange={setSelectedKeys}
       onSortChange={setSortDescriptor}
