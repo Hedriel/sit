@@ -5,11 +5,13 @@ import UsersTable from "@/components/admin/UsersTable";
 import { getUsers } from "@/lib/data-access-layer/users";
 export default async function AdminPage() {
   const { users } = await getUsers();
+
+  console.log(users);
   return (
     <div>
       <BreadCrumb />
       {/* <UserPlate users={users || []} /> */}
-      <UsersTable />
+      <UsersTable users={users || []} />
       {/* TODO: Listado de usuarios con ABM
       <UserList />
       */}

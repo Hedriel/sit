@@ -6,6 +6,7 @@
 
 import type { Selection, SortDescriptor } from "@heroui/react";
 import { EllipsisVertical } from "lucide-react";
+import defaultProfile from "@/public/images/default-user.webp";
 
 import React from "react";
 import {
@@ -21,14 +22,13 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
-  User,
+  User as UserCard,
 } from "@heroui/react";
 import TopContent from "./components/TopContent";
-import { users, columns, statusColorMap } from "./data";
-import { BottomContent } from "./components/BottomContent";
-type User = (typeof users)[0];
+import BottomContent from "./components/BottomContent";
+import { User, columns, statusColorMap } from "./data";
 
-export default function UsersTable() {
+export default function UsersTable({ users }: { users: User[] }) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -49,7 +49,7 @@ export default function UsersTable() {
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+        user.first_name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
@@ -67,8 +67,8 @@ export default function UsersTable() {
 
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a: User, b: User) => {
-      const first = a[sortDescriptor.column as keyof User] as number;
-      const second = b[sortDescriptor.column as keyof User] as number;
+      const first = a[sortDescriptor.column as keyof User] as any;
+      const second = b[sortDescriptor.column as keyof User] as any;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -81,28 +81,33 @@ export default function UsersTable() {
     switch (columnKey) {
       case "name":
         return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
+          <UserCard
+            avatarProps={{
+              radius: "lg",
+              src: user.avatar_url || defaultProfile.src,
+            }}
+            description={"user.email"}
+            name={user.first_name + " " + user.last_name}
           >
-            {user.email}
-          </User>
+            {"user.email"}
+          </UserCard>
         );
       case "role":
         return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.team}
-            </p>
-          </div>
+          <Chip
+            className="capitalize"
+            color={statusColorMap[user.role]}
+            size="sm"
+            variant="flat"
+          >
+            {cellValue}
+          </Chip>
         );
       case "status":
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[user.status]}
+            color={statusColorMap[user.role]}
             size="sm"
             variant="flat"
           >
@@ -159,9 +164,6 @@ export default function UsersTable() {
         <BottomContent page={page} pages={pages} setPage={setPage} />
       }
       bottomContentPlacement="outside"
-      classNames={{
-        wrapper: "max-h-[482px]",
-      }}
       selectedKeys={selectedKeys}
       sortDescriptor={sortDescriptor}
       topContent={

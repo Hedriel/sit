@@ -1,6 +1,6 @@
 import { Pagination } from "@heroui/react";
 
-export const BottomContent = ({
+export default function BottomContent({
   page,
   pages,
   setPage,
@@ -8,7 +8,7 @@ export const BottomContent = ({
   page: number;
   pages: number;
   setPage: (page: number) => void;
-}) => {
+}) {
   return (
     <div className="py-2 px-2 flex justify-between items-center mx-auto">
       <Pagination
@@ -23,4 +23,4 @@ export const BottomContent = ({
       />
     </div>
   );
-};
+}
