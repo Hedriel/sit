@@ -1,27 +1,78 @@
-import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
+"use client";
 
-import LogOut from "@/components/auth/LogOutButton";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Link,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+} from "@heroui/react";
+
 import UserCard from "@/components/global/UserCard";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 
-import { getUserProfile } from "@/lib/auth/helper";
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/admin", label: "Admin" },
+  { href: "/instruments", label: "Instruments" },
+];
 
-export default async function NavBar() {
-  const data = await getUserProfile();
+export default function NavBar({ data }: { data: any }) {
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="flex justify-between items-center relative">
-      <h1 className="text-2xl font-bold">S.I.T</h1>
-      <div className="flex gap-4">
-        <ThemeSwitcher />
-        {data && (
-          <UserCard
-            name={`${data.first_name} ${data.last_name}`!}
-            email={data.email!}
-            avatar={data.avatar_url}
-          />
-        )}
-        <LogOut />
-      </div>
-    </nav>
+    <Navbar maxWidth="full">
+      <NavbarContent className="sm:hidden" justify="start">
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        />
+      </NavbarContent>
+
+      <NavbarBrand className="hidden sm:flex">
+        <span className="font-bold text-inherit  text-2xl">S.I.T</span>
+      </NavbarBrand>
+      {data && (
+        <>
+          <NavbarContent className="hidden sm:flex gap-4" justify="center">
+            {links.map((link) => (
+              <NavbarItem isActive={link.href === pathname} key={link.href}>
+                <Link
+                  color={link.href === pathname ? "primary" : "foreground"}
+                  href={link.href}
+                >
+                  {link.label}
+                </Link>
+              </NavbarItem>
+            ))}
+          </NavbarContent>
+          <NavbarContent justify="end">
+            <NavbarItem>
+              <UserCard
+                name={`${data.first_name} ${data.last_name}`!}
+                email={data.email!}
+                avatar={data.avatar_url}
+              />
+            </NavbarItem>
+          </NavbarContent>
+          <NavbarMenu>
+            {links.map((link, index) => (
+              <NavbarMenuItem key={`${link}-${index}`}>
+                <Link
+                  color={link.href === pathname ? "primary" : "foreground"}
+                  href={link.href}
+                >
+                  {link.label}
+                </Link>
+              </NavbarMenuItem>
+            ))}
+          </NavbarMenu>
+        </>
+      )}
+    </Navbar>
   );
 }

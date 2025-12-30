@@ -3,7 +3,7 @@ import { Manrope } from "next/font/google";
 
 import { Providers } from "../providers";
 import NavBar from "@/components/global/NavBar";
-
+import { getUserProfile } from "@/lib/auth/helper";
 import "./globals.css";
 
 const manrope = Manrope({ subsets: ["latin"] });
@@ -13,16 +13,17 @@ export const metadata: Metadata = {
   description: "Inicio de sesión",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const data = await getUserProfile();
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`antialiased p-4 ${manrope.className}`}>
+      <body className={`antialiased ${manrope.className} max-w-7xl mx-auto`}>
         <Providers>
-          <NavBar />
+          <NavBar data={data} />
           {children}
         </Providers>
       </body>

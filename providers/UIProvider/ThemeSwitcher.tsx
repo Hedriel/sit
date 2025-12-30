@@ -18,10 +18,11 @@ export function ThemeSwitcher() {
 
   return (
     <button
-      className="cursor-pointer"
+      className="cursor-pointer flex items-center gap-2 w-full justify-center h-10"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "dark" ? <Sun size={28} /> : <Moon size={28} />}
+      Modo {theme === "dark" ? "claro" : "oscuro"}
     </button>
   );
 }

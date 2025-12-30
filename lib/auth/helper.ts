@@ -17,7 +17,7 @@ export async function getAuthenticatedClient() {
   };
 }
 
-export async function getSession() {
+async function getSession() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getClaims();
 

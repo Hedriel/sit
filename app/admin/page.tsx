@@ -8,7 +8,7 @@ export default async function AdminPage() {
 
   console.log(users);
   return (
-    <div>
+    <div className="px-7">
       <BreadCrumb />
       {/* <UserPlate users={users || []} /> */}
       <UsersTable users={users || []} />
