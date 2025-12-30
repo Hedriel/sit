@@ -12,7 +12,6 @@ import {
 } from "@heroui/react";
 
 import UserCard from "@/components/global/UserCard";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 
 const links = [
@@ -23,14 +22,11 @@ const links = [
 
 export default function NavBar({ data }: { data: any }) {
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <Navbar maxWidth="full">
       <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        />
+        <NavbarMenuToggle />
       </NavbarContent>
 
       <NavbarBrand className="hidden sm:flex">

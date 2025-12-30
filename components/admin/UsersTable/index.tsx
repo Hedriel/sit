@@ -75,65 +75,6 @@ export default function UsersTable({ users }: { users: User[] }) {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof User];
-
-    switch (columnKey) {
-      case "name":
-        return (
-          <UserCard
-            avatarProps={{
-              radius: "lg",
-              src: user.avatar_url || defaultProfile.src,
-            }}
-            description={"user.email"}
-            name={user.first_name + " " + user.last_name}
-          >
-            {"user.email"}
-          </UserCard>
-        );
-      case "role":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.role]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.role]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <Dropdown>
-            <DropdownTrigger>
-              <Button isIconOnly size="sm" variant="light">
-                <EllipsisVertical className="text-default-300" />
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu>
-              <DropdownItem key="view">View</DropdownItem>
-              <DropdownItem key="edit">Edit</DropdownItem>
-              <DropdownItem key="delete">Delete</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
-
   const onRowsPerPageChange = React.useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setRowsPerPage(Number(e.target.value));
@@ -179,23 +120,52 @@ export default function UsersTable({ users }: { users: User[] }) {
       onSelectionChange={setSelectedKeys}
       onSortChange={setSortDescriptor}
     >
-      <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-            allowsSorting={column.sortable}
-          >
-            {column.name}
-          </TableColumn>
-        )}
+      <TableHeader>
+        <TableColumn>USUARIO</TableColumn>
+        <TableColumn>EMAIL</TableColumn>
+        <TableColumn allowsSorting>ROL</TableColumn>
+        <TableColumn>ACCIONES</TableColumn>
       </TableHeader>
       <TableBody emptyContent={"No users found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
+            <TableCell>
+              <UserCard
+                avatarProps={{
+                  radius: "lg",
+                  src: item.avatar_url || defaultProfile.src,
+                }}
+                description={item.email}
+                name={item.first_name + " " + item.last_name}
+              >
+                {item.email}
+              </UserCard>
+            </TableCell>
+            <TableCell>{item.email}</TableCell>
+            <TableCell>
+              <Chip
+                className="capitalize"
+                color={statusColorMap[item.role]}
+                size="sm"
+                variant="flat"
+              >
+                {item.role}
+              </Chip>
+            </TableCell>
+            <TableCell>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="sm" variant="light">
+                    <EllipsisVertical className="text-default-300" />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem key="view">View</DropdownItem>
+                  <DropdownItem key="edit">Edit</DropdownItem>
+                  <DropdownItem key="delete">Delete</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </TableCell>
           </TableRow>
         )}
       </TableBody>
