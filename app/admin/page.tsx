@@ -6,7 +6,6 @@ import { getUsers } from "@/lib/data-access-layer/users";
 export default async function AdminPage() {
   const { users } = await getUsers();
 
-  console.log(users);
   return (
     <div className="px-7">
       <BreadCrumb />

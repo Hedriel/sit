@@ -1,13 +1,8 @@
 import type { ChipProps } from "@heroui/react";
-export const columns = [
-  { name: "USUARIO", uid: "name" },
-  { name: "EMAIL", uid: "email" },
-  { name: "ROL", uid: "role", sortable: true },
-  { name: "ACCIONES", uid: "actions" },
-];
 
 export interface User {
   id: string;
+  fullname: string;
   first_name: string;
   last_name: string;
   role: string;
