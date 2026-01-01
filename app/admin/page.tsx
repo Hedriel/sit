@@ -1,6 +1,6 @@
-import BreadCrumb from "@/components/admin/BreadCrumb";
-import UserPlate from "@/components/admin/UserList";
-import UsersTable from "@/components/admin/UsersTable";
+import BreadCrumb from "@/app/admin/_components/BreadCrumb";
+import UserPlate from "@/app/admin/_components/UserList";
+import UsersTable from "@/app/admin/_components/UsersTable";
 // import UserForm from "@/components/admin/UserForm";
 import { getUsers } from "@/lib/data-access-layer/users";
 export default async function AdminPage() {

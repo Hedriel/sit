@@ -4,7 +4,6 @@
 // TODO: Icons should be on own utils file.
 // TODO: Table schema should be adapted to user schema.
 
-import type { Selection, SortDescriptor } from "@heroui/react";
 import { EllipsisVertical } from "lucide-react";
 import defaultProfile from "@/public/images/default-user.webp";
 

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 
-import { Providers } from "../providers";
-import NavBar from "@/components/NavBar";
-import { getUserProfile } from "@/lib/auth/helper";
-import "./globals.css";
+import "@/app/globals.css";
+
+import { Providers } from "@/providers";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -18,14 +17,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const data = await getUserProfile();
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`antialiased ${manrope.className} max-w-7xl mx-auto`}>
-        <Providers>
-          <NavBar data={data} />
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
