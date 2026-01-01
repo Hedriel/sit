@@ -48,19 +48,23 @@ export default function NavBar({ data }: { data: any }) {
         <span className="font-bold text-inherit  text-2xl">S.I.T</span>
       </NavbarBrand>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        {renderLinks()}
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem>
-          <UserCard
-            name={`${data.first_name} ${data.last_name}`!}
-            email={data.email!}
-            avatar={data?.avatar_url}
-          />
-        </NavbarItem>
-      </NavbarContent>
-      <NavbarMenu>{renderLinks()}</NavbarMenu>
+      {data && (
+        <>
+          <NavbarContent className="hidden sm:flex gap-4" justify="center">
+            {renderLinks()}
+          </NavbarContent>
+          <NavbarContent justify="end">
+            <NavbarItem>
+              <UserCard
+                name={`${data.first_name} ${data.last_name}`!}
+                email={data.email!}
+                avatar={data?.avatar_url}
+              />
+            </NavbarItem>
+          </NavbarContent>
+          <NavbarMenu>{renderLinks()}</NavbarMenu>
+        </>
+      )}
     </Navbar>
   );
 }
