@@ -1,9 +1,6 @@
 "use client";
-// TODO: This is only a template. Table must be populated with data from the database.
-// TODO: Javascript should be on own utils file.
-// TODO: Icons should be on own utils file.
-// TODO: Table schema should be adapted to user schema.
 
+import { Trash2, PenLine } from "lucide-react";
 import defaultProfile from "@/public/images/default-user.webp";
 
 import React from "react";
@@ -16,10 +13,13 @@ import {
   TableCell,
   Chip,
   User as UserCard,
+  Tooltip,
+  addToast,
 } from "@heroui/react";
 import TopContent from "./components/TopContent";
 
 import { User, statusColorMap } from "./data";
+import { deleteUser } from "@/lib/data-access-layer/admin/delete-user";
 
 export default function UsersTable({ users }: { users: User[] }) {
   const [filterValue, setFilterValue] = React.useState("");
@@ -59,7 +59,7 @@ export default function UsersTable({ users }: { users: User[] }) {
         <TableColumn>USUARIO</TableColumn>
         <TableColumn>EMAIL</TableColumn>
         <TableColumn allowsSorting>ROL</TableColumn>
-        <TableColumn>ACCIONES</TableColumn>
+        <TableColumn align="center">ACCIONES</TableColumn>
       </TableHeader>
       <TableBody emptyContent={"No users found"} items={filteredUsers}>
         {(item) => (
@@ -90,7 +90,35 @@ export default function UsersTable({ users }: { users: User[] }) {
                 {item.role}
               </Chip>
             </TableCell>
-            <TableCell></TableCell>
+            <TableCell>
+              <div className="relative flex justify-center  gap-2 ">
+                <Tooltip content="Edit user">
+                  <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                    <PenLine size={18} />
+                  </span>
+                </Tooltip>
+
+                <Tooltip color="danger" content="Delete user">
+                  <span
+                    onClick={() =>
+                      deleteUser(item.id).then(({ success }) => {
+                        success &&
+                          addToast({
+                            icon: <Trash2 size={18} />,
+                            title: "Usuario eliminado",
+                            description:
+                              "El usuario se ha eliminado correctamente",
+                            color: "success",
+                          });
+                      })
+                    }
+                    className="text-lg text-danger cursor-pointer active:opacity-50"
+                  >
+                    <Trash2 size={18} />
+                  </span>
+                </Tooltip>
+              </div>
+            </TableCell>
           </TableRow>
         )}
       </TableBody>
