@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher({ showText = false }: { showText?: boolean }) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -22,7 +22,7 @@ export function ThemeSwitcher() {
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "dark" ? <Sun size={28} /> : <Moon size={28} />}
-      Modo {theme === "dark" ? "claro" : "oscuro"}
+      {showText && (theme === "dark" ? "claro" : "oscuro")}
     </button>
   );
 }

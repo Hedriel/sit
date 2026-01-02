@@ -12,8 +12,9 @@ import {
 
 import Link from "next/link";
 
-import UserCard from "@/components/global/UserCard";
+import UserCard from "@/components/UserCard";
 import { usePathname } from "next/navigation";
+import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
 
 const links = [
   { href: "/", label: "Home" },
@@ -48,7 +49,7 @@ export default function NavBar({ data }: { data: any }) {
         <span className="font-bold text-inherit  text-2xl">S.I.T</span>
       </NavbarBrand>
 
-      {data && (
+      {data ? (
         <>
           <NavbarContent className="hidden sm:flex gap-4" justify="center">
             {renderLinks()}
@@ -64,7 +65,12 @@ export default function NavBar({ data }: { data: any }) {
           </NavbarContent>
           <NavbarMenu>{renderLinks()}</NavbarMenu>
         </>
+      ) : (
+        <div className="mr-auto">
+          <ThemeSwitcher />
+        </div>
       )}
     </Navbar>
   );
 }
+ 

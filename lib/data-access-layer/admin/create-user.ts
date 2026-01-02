@@ -12,6 +12,8 @@ export async function createUser(previousState: unknown, formData: FormData) {
   const role = formData.get("role") as string;
   const password = formData.get("password") as string;
 
+  console.log(email, first_name, last_name, role, password);
+
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -24,18 +26,24 @@ export async function createUser(previousState: unknown, formData: FormData) {
     },
   });
 
+  console.log("data", data);
+  console.log("error", error);
+  console.log("previousState", previousState);
+
   if (error) {
+    let message;
     if (error.code === "invalid_credentials") {
-      return {
-        message: "Credenciales invalidas",
-        fieldData: { email, first_name, last_name, role, password },
-      };
+      message = "Credenciales invalidas";
+    }
+    if (error.code === "email_address_invalid") {
+      message = "Email invalido";
     }
     return {
-      message: "Algo salio mal, vuelve a intentar nuevamente",
-      fieldData: { email },
+      message,
+      fieldData: { email, first_name, last_name, role, password },
     };
   } else {
     revalidatePath("/admin");
+    return { success: true };
   }
 }

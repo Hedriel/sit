@@ -1,5 +1,6 @@
 "use client";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+
 import {
   Form,
   Input,
@@ -7,15 +8,26 @@ import {
   Spinner,
   Select,
   SelectItem,
-  Card,
+  addToast,
 } from "@heroui/react";
 import { createUser } from "@/lib/data-access-layer/admin/create-user";
-export default function UserForm() {
+export default function UserForm({ onClose }: { onClose: () => void }) {
   const [state, formAction, isPending] = useActionState(createUser, undefined);
+
+  useEffect(() => {
+    if (state?.success) {
+      onClose();
+      addToast({
+        title: "Usuario creado",
+        description: "El usuario se ha creado correctamente",
+        color: "success",
+      });
+    }
+  }, [state?.success, onClose]);
+
   return (
-    <Card className="items-center justify-center mx-auto min-w-md p-12  mt-20 h-fit">
-      <h1 className="text-2xl font-bold text-center  ">Crear Usuario</h1>
-      <Form className="w-full max-w-xs flex flex-col " action={formAction}>
+    <>
+      <Form action={formAction}>
         <Input
           defaultValue={state?.fieldData?.email}
           isRequired
@@ -52,7 +64,7 @@ export default function UserForm() {
 
         <Select
           className="mt-5"
-          isRequired
+          isRequired={!state?.success}
           label="Role"
           labelPlacement="outside"
           name="role"
@@ -62,6 +74,7 @@ export default function UserForm() {
           <SelectItem key="receptionist">Recepcionista</SelectItem>
         </Select>
         <Input
+          defaultValue={state?.fieldData?.password}
           isRequired
           errorMessage="Ingrese una contraseña valida"
           label="Contraseña"
@@ -78,12 +91,22 @@ export default function UserForm() {
         >
           {isPending ? <Spinner size="sm" color="white" /> : "Crear usuario"}
         </Button>
+        <Button
+          onPress={() => {
+            onClose();
+          }}
+          color="primary"
+          variant="light"
+          className="w-full"
+        >
+          Cancelar
+        </Button>
       </Form>
       {state && (
-        <div className="text-center mt-4">
+        <div className="text-center my-2">
           <p className="text-sm text-red-600">{state.message}</p>
         </div>
       )}
-    </Card>
+    </>
   );
 }

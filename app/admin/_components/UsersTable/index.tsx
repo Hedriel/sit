@@ -4,7 +4,6 @@
 // TODO: Icons should be on own utils file.
 // TODO: Table schema should be adapted to user schema.
 
-import { EllipsisVertical } from "lucide-react";
 import defaultProfile from "@/public/images/default-user.webp";
 
 import React from "react";
@@ -15,11 +14,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
   Chip,
   User as UserCard,
 } from "@heroui/react";
@@ -70,16 +64,22 @@ export default function UsersTable({ users }: { users: User[] }) {
       <TableBody emptyContent={"No users found"} items={filteredUsers}>
         {(item) => (
           <TableRow key={item.id}>
-            <TableCell>
-              <UserCard
-                avatarProps={{
-                  radius: "lg",
-                  src: item.avatar_url || defaultProfile.src,
-                }}
-                name={item.fullname}
-              />
+            <TableCell className="min-w-16">
+              <>
+                <UserCard
+                  className="hidden sm:inline-flex"
+                  avatarProps={{
+                    radius: "lg",
+                    src: item.avatar_url || defaultProfile.src,
+                  }}
+                  name={item.fullname}
+                />
+                <div className="sm:hidden">
+                  <p className="text-sm">{item.fullname}</p>
+                </div>
+              </>
             </TableCell>
-            <TableCell>{item.email}</TableCell>
+            <TableCell className="text-sm">{item.email}</TableCell>
             <TableCell>
               <Chip
                 className="capitalize"
@@ -90,20 +90,7 @@ export default function UsersTable({ users }: { users: User[] }) {
                 {item.role}
               </Chip>
             </TableCell>
-            <TableCell>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button isIconOnly size="sm" variant="light">
-                    <EllipsisVertical className="text-default-300" />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu>
-                  <DropdownItem key="view">View</DropdownItem>
-                  <DropdownItem key="edit">Edit</DropdownItem>
-                  <DropdownItem key="delete">Delete</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </TableCell>
+            <TableCell></TableCell>
           </TableRow>
         )}
       </TableBody>
