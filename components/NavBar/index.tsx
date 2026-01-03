@@ -6,7 +6,6 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenuToggle,
-  NavbarMenuItem,
   NavbarMenu,
 } from "@heroui/react";
 
@@ -15,6 +14,7 @@ import Link from "next/link";
 import UserCard from "@/components/UserCard";
 import { usePathname } from "next/navigation";
 import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
+import { useState } from "react";
 
 const links = [
   { href: "/", label: "Home" },
@@ -23,10 +23,12 @@ const links = [
 ];
 export default function NavBar({ data }: { data: any }) {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function renderLinks() {
     return links.map((link) => (
       <Link
+        onClick={() => setIsMenuOpen(false)}
         key={link.href}
         className={`transition-all duration-300 hover:sm:scale-105 ${
           link.href === pathname
@@ -41,9 +43,9 @@ export default function NavBar({ data }: { data: any }) {
   }
 
   return (
-    <Navbar maxWidth="full">
+    <Navbar isMenuOpen={isMenuOpen} maxWidth="full">
       <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle />
+        <NavbarMenuToggle onChange={(value) => setIsMenuOpen(value)} />
       </NavbarContent>
       <NavbarBrand className="hidden sm:flex">
         <span className="font-bold text-inherit  text-2xl">S.I.T</span>
@@ -73,4 +75,3 @@ export default function NavBar({ data }: { data: any }) {
     </Navbar>
   );
 }
- 

@@ -12,23 +12,16 @@ export async function createUser(previousState: unknown, formData: FormData) {
   const role = formData.get("role") as string;
   const password = formData.get("password") as string;
 
-  console.log(email, first_name, last_name, role, password);
-
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.admin.createUser({
     email,
     password,
-    options: {
-      data: {
-        first_name,
-        last_name,
-        role,
-      },
+    email_confirm: true,
+    user_metadata: {
+      first_name,
+      last_name,
+      role,
     },
   });
-
-  console.log("data", data);
-  console.log("error", error);
-  console.log("previousState", previousState);
 
   if (error) {
     let message;

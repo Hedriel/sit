@@ -8,6 +8,7 @@ export async function getAuthenticatedClient() {
   const { data, error } = await supabase.auth.getClaims();
 
   if (error || !data?.claims) {
+    console.log(error);
     redirectToLogin();
   }
 

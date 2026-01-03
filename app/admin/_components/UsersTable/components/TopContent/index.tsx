@@ -53,6 +53,7 @@ export default function TopContent({
           </span>
         </div>
       </div>
+
       <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">
