@@ -61,7 +61,6 @@ export default function UserForm({ onClose }: { onClose: () => void }) {
           type="text"
           className="mb-4"
         />
-
         <Select
           className="mt-5"
           isRequired={!state?.success}
@@ -72,6 +71,7 @@ export default function UserForm({ onClose }: { onClose: () => void }) {
         >
           <SelectItem key="doctor">Doctor</SelectItem>
           <SelectItem key="receptionist">Recepcionista</SelectItem>
+          <SelectItem key="admin">Admin</SelectItem>
         </Select>
         <Input
           defaultValue={state?.fieldData?.password}

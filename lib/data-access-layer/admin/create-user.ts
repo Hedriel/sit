@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/auth/server";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function createUser(previousState: unknown, formData: FormData) {
@@ -16,7 +16,7 @@ export async function createUser(previousState: unknown, formData: FormData) {
     email,
     password,
     email_confirm: true,
-    user_metadata: {
+    app_metadata: {
       first_name,
       last_name,
       role,

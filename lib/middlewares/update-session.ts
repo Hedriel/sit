@@ -38,6 +38,8 @@ export async function updateSession(request: NextRequest) {
 
   const user = data?.claims;
 
+  console.log(data);
+
   if (user) {
     if (
       request.nextUrl.pathname.startsWith("/sign-in") ||

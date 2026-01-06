@@ -3,7 +3,7 @@ import { Manrope } from "next/font/google";
 
 import { Providers } from "../providers";
 import NavBar from "@/components/NavBar";
-import { getUserProfile } from "@/lib/auth/helper";
+import { getUserProfile } from "@/lib/auth/user";
 import "./globals.css";
 
 const manrope = Manrope({ subsets: ["latin"] });

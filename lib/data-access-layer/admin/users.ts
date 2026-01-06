@@ -1,9 +1,8 @@
 "use server";
-
-import { getAuthenticatedClient } from "../auth/helper";
+import { createClient } from "../../supabase/server";
 
 export async function getUsers() {
-  const { supabase } = await getAuthenticatedClient();
+  const supabase = await createClient();
 
   const { data: users } = await supabase.from("profiles").select("*");
 
@@ -15,7 +14,7 @@ export async function getUsers() {
 }
 
 export async function getUserById(id: string) {
-  const { supabase } = await getAuthenticatedClient();
+  const supabase = await createClient();
 
   const { data: user } = await supabase
     .from("profiles")

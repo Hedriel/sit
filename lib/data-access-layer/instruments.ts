@@ -1,7 +1,7 @@
-import { getAuthenticatedClient } from "../auth/helper";
+import { createClient } from "../supabase/server";
 
 export async function getInstruments() {
-  const { supabase } = await getAuthenticatedClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.from("instrument").select();
 
