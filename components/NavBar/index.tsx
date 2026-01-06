@@ -18,28 +18,30 @@ import { useState } from "react";
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/admin", label: "Admin" },
   { href: "/instruments", label: "Instruments" },
+  { href: "/admin", label: "Admin" },
 ];
 export default function NavBar({ data }: { data: any }) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function renderLinks() {
-    return links.map((link) => (
-      <Link
-        onClick={() => setIsMenuOpen(false)}
-        key={link.href}
-        className={`transition-all duration-300 hover:sm:scale-105 ${
-          link.href === pathname
-            ? "text-primary"
-            : "hover:text-primary opacity-85 "
-        }`}
-        href={link.href}
-      >
-        {link.label}
-      </Link>
-    ));
+    return links
+      .filter((link) => link.href !== "/admin" || data?.role === "admin")
+      .map((link) => (
+        <Link
+          key={link.href}
+          href={link.href}
+          onClick={() => setIsMenuOpen(false)}
+          className={`transition-all duration-300 hover:sm:scale-105 ${
+            link.href === pathname
+              ? "text-primary"
+              : "hover:text-primary opacity-85"
+          }`}
+        >
+          {link.label}
+        </Link>
+      ));
   }
 
   return (
