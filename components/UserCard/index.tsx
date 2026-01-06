@@ -7,7 +7,7 @@ import {
   DropdownItem,
 } from "@heroui/react";
 import defaultProfile from "@/public/images/default-user.webp";
-import LogOut from "@/app/(auth)/sign-in/_components/LogOutButton";
+import LogOut from "@/app/(protected)/sign-in/_components/LogOutButton";
 import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
 
 interface UserCardProps {

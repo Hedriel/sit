@@ -1,8 +1,8 @@
-import BreadCrumb from "@/app/admin/_components/BreadCrumb";
-import UsersTable from "@/app/admin/_components/UsersTable";
 import { getUserProfile } from "@/lib/auth/user";
 import { getUsers } from "@/lib/data-access-layer/admin/users";
 import { redirect } from "next/navigation";
+import BreadCrumb from "./_components/BreadCrumb";
+import UsersTable from "./_components/UsersTable";
 export default async function AdminPage() {
   const user = await getUserProfile();
   if (user?.role !== "admin") {
