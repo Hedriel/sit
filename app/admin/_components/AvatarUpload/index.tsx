@@ -1,84 +1,87 @@
-// components/AvatarUpload.tsx
 "use client";
 
-import { useState } from "react";
-import { Card, CardBody, CardHeader } from "@heroui/react";
-import { ImagePlus, XIcon } from "lucide-react";
+import { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { UploadCloud, X } from "lucide-react";
+import { Button, PressEvent } from "@heroui/button";
 
 export default function AvatarUpload() {
   const [preview, setPreview] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      console.log(file);
       setPreview(URL.createObjectURL(file));
     }
-  };
+  }, []);
 
-  const reset = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "image/*": [".jpeg", ".jpg", ".png", ".gif", ".webp"],
+    },
+    maxFiles: 1,
+    maxSize: 4 * 1024 * 1024,
+  });
+
+  const removeImage = (e: PressEvent) => {
+    if (preview) URL.revokeObjectURL(preview);
     setPreview(null);
-    // Opcional: resetear el input
-    const input = document.getElementById("avatar-input") as HTMLInputElement;
-    if (input) input.value = "";
   };
 
   return (
-    <Card
-      className="w-full cursor-pointer border-2 border-dashed border-divider hover:border-primary transition-colors"
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => {
-        e.preventDefault();
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith("image/")) {
-          setPreview(URL.createObjectURL(file));
-          // Truco: asignar al input oculto
-          const input = document.getElementById(
-            "avatar-input"
-          ) as HTMLInputElement;
-          if (input) {
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            input.files = dataTransfer.files;
+    <div className="mt-6 w-full">
+      <div
+        {...getRootProps()}
+        className={`
+          relative mx-auto size-40 max-w-full cursor-pointer overflow-hidden rounded-2xl border-2 border-dashed border-gray-400
+          bg-muted/30 text-center transition-all duration-300 ease-in-out w-full flex items-center justify-center
+          ${
+            isDragActive
+              ? "border-primary bg-primary/10 shadow-2xl"
+              : "border-muted-foreground/40 hover:border-primary/60 hover:bg-accent/10 hover:shadow-xl"
           }
-        }
-      }}
-    >
-      <CardBody className="p-8 text-center">
-        <label htmlFor="avatar-input" className="block cursor-pointer">
-          {preview ? (
-            <div>
-              <img
-                src={preview}
-                alt="Preview avatar"
-                className="mx-auto h-48 w-48 rounded-full object-cover"
-              />
-              <button
-                onClick={reset}
-                className="absolute top-2 right-2 rounded-lg bg-red-700/90 p-2 text-white hover:bg-red-800/90 cursor-pointer"
-              >
-                <XIcon size={16} />
-              </button>
-            </div>
-          ) : (
-            <>
-              <ImagePlus size={48} className="mx-auto text-foreground/90" />
-              <p className="mt-4 font-medium">Arrastrá una foto o hacé click</p>
-              <p className="text-xs text-foreground/60">JPG, PNG • máx 5MB</p>
-            </>
-          )}
-        </label>
+        `}
+      >
+        <input name="avatar" {...getInputProps()} />
 
-        {/* Este input está oculto pero dentro del form → Next.js lo incluye automáticamente */}
-        <input
-          id="avatar-input"
-          type="file"
-          name="avatar" // ← CLAVE: este name hace que llegue como formData.get("avatar")
-          accept="image/*"
-          className="hidden"
-          onChange={handleChange}
-        />
-      </CardBody>
-    </Card>
+        {preview ? (
+          <div className="size-24 flex items-center justify-center relative">
+            <img
+              src={preview}
+              alt="Preview del avatar"
+              className="size-full object-cover rounded-2xl"
+            />
+
+            <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300">
+              <Button
+                size="sm"
+                isIconOnly
+                type="button"
+                onPress={removeImage}
+                className=" absolute -top-3 -right-2 rounded-full  cursor-pointer"
+              >
+                <X size={16} />
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex size-full flex-col items-center justify-center space-y-2 px-6">
+            <UploadCloud className="size-10 text-muted-foreground" />
+            <div className="space-y-1">
+              <p className="text-base font-medium text-foreground">
+                {isDragActive ? "¡Soltá aquí!" : "Arrastrá tu foto"}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                o click para seleccionar
+                <br />
+                máx. 4MB
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

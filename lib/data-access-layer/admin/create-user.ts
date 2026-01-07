@@ -26,13 +26,9 @@ export async function createUser(previousState: unknown, formData: FormData) {
       .upload(fileName, avatarFile, { upsert: false });
 
     if (uploadError) {
-      // ← NUNCA devolvás uploadError directamente
-      // En vez de eso, extraé solo lo necesario
       console.log(uploadError);
       return {
         message: "Error al subir la imagen de perfil",
-        // Opcional: podés incluir detalles si querés mostrarlos
-        // details: uploadError.message,
         fieldData: { email, first_name, last_name, role, password },
       };
     }
@@ -47,7 +43,7 @@ export async function createUser(previousState: unknown, formData: FormData) {
   }
 
   // Creación del usuario
-  const { data, error: userError } = await supabase.auth.admin.createUser({
+  const { error: userError } = await supabase.auth.admin.createUser({
     email,
     password,
     email_confirm: true,
@@ -60,7 +56,6 @@ export async function createUser(previousState: unknown, formData: FormData) {
   });
 
   if (userError) {
-    // ← Acá también: NO devolvás userError directamente
     let message = "Error al crear el usuario";
 
     if (userError.message.includes("duplicate key")) {
