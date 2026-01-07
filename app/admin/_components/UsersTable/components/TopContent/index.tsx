@@ -58,7 +58,7 @@ export default function TopContent({
 
       <Modal
         size={isMobile ? "full" : "lg"}
-        placement="center"
+        placement={isMobile ? "bottom" : "center"}
         scrollBehavior="inside"
         backdrop="blur"
         isOpen={isOpen}
