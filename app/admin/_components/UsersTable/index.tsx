@@ -7,7 +7,7 @@ import { Table, TableHeader, TableColumn, TableBody } from "@heroui/react";
 import { renderBodyContent } from "./components/BodyContent";
 import TopContent from "./components/TopContent";
 
-import { User } from "./data";
+import { User } from "@/types";
 import { deleteUser } from "@/lib/data-access-layer/admin/delete-user";
 import { useUserFilter } from "@/hooks/useUserFilter";
 

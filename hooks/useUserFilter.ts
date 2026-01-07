@@ -1,10 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
+import { User } from "@/types";
 
-interface FilterableItem {
-  fullname: string;
-}
-
-export function useUserFilter<T extends FilterableItem>(items: T[]) {
+export function useUserFilter<T extends User>(items: T[]) {
   const [filterValue, setFilterValue] = useState("");
 
   const onSearchChange = useCallback((value?: string) => {

@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { randomUUID } from "crypto";
 
 export async function createUser(previousState: unknown, formData: FormData) {
   const supabase = await createClient();
@@ -11,7 +12,41 @@ export async function createUser(previousState: unknown, formData: FormData) {
   const last_name = formData.get("last_name") as string;
   const role = formData.get("role") as string;
   const password = formData.get("password") as string;
+  const avatarFile = formData.get("avatar") as File | null;
 
+  let avatar_url: string | null = null;
+
+  // Subida del avatar
+  if (avatarFile && avatarFile.size > 0) {
+    const fileExt = avatarFile.name.split(".").pop();
+    const fileName = `${randomUUID()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("profile-pictures")
+      .upload(fileName, avatarFile, { upsert: false });
+
+    if (uploadError) {
+      // ← NUNCA devolvás uploadError directamente
+      // En vez de eso, extraé solo lo necesario
+      console.log(uploadError);
+      return {
+        message: "Error al subir la imagen de perfil",
+        // Opcional: podés incluir detalles si querés mostrarlos
+        // details: uploadError.message,
+        fieldData: { email, first_name, last_name, role, password },
+      };
+    }
+
+    const { data: urlData } = supabase.storage
+      .from("profile-pictures")
+      .getPublicUrl(fileName);
+
+    avatar_url = urlData.publicUrl;
+
+    console.log(avatar_url);
+  }
+
+  // Creación del usuario
   const { data, error: userError } = await supabase.auth.admin.createUser({
     email,
     password,
@@ -20,24 +55,27 @@ export async function createUser(previousState: unknown, formData: FormData) {
       first_name,
       last_name,
       role,
+      avatar_url,
     },
   });
 
   if (userError) {
-    console.log("USER ERROR:", userError);
-    let message;
-    if (userError.code === "invalid_credentials") {
-      message = "Credenciales invalidas";
+    // ← Acá también: NO devolvás userError directamente
+    let message = "Error al crear el usuario";
+
+    if (userError.message.includes("duplicate key")) {
+      message = "El correo ya está registrado";
+    } else if (userError.message.includes("Password")) {
+      message = "La contraseña es demasiado débil";
     }
-    if (userError.code === "email_address_invalid") {
-      message = "Email invalido";
-    }
+    // Podés agregar más casos según errores comunes de Supabase
+
     return {
       message,
       fieldData: { email, first_name, last_name, role, password },
     };
-  } else {
-    revalidatePath("/admin");
-    return { success: true };
   }
+
+  revalidatePath("/admin");
+  return { success: true };
 }

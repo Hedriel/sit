@@ -6,7 +6,8 @@ import {
   User as UserCard,
 } from "@heroui/react";
 import { PenLine, Trash2 } from "lucide-react";
-import { statusColorMap, User } from "../../data";
+import { statusColorMap } from "../../data";
+import { User } from "@/types";
 import defaultProfile from "@/public/images/default-user.webp";
 
 export function renderBodyContent(

@@ -1,10 +1,9 @@
-"use server";
 import { redirect } from "next/navigation";
 
-export async function redirectToLogin() {
+export function redirectToLogin() {
   redirect("/sign-in");
 }
 
-export async function redirectToHome() {
+export function redirectToHome() {
   redirect("/");
 }

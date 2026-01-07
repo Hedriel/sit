@@ -1,5 +1,5 @@
 "use client";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 import {
   Form,
@@ -11,6 +11,7 @@ import {
   addToast,
 } from "@heroui/react";
 import { createUser } from "@/lib/data-access-layer/admin/create-user";
+import AvatarUpload from "../AvatarUpload";
 export default function UserForm({ onClose }: { onClose: () => void }) {
   const [state, formAction, isPending] = useActionState(createUser, undefined);
 
@@ -28,17 +29,6 @@ export default function UserForm({ onClose }: { onClose: () => void }) {
   return (
     <>
       <Form action={formAction}>
-        <Input
-          defaultValue={state?.fieldData?.email}
-          isRequired
-          errorMessage="Ingrese un correo valido"
-          label="Correo"
-          labelPlacement="outside"
-          name="email"
-          placeholder="Ingrese su correo"
-          type="email"
-          className="mb-4"
-        />
         <Input
           defaultValue={state?.fieldData?.first_name}
           isRequired
@@ -64,7 +54,7 @@ export default function UserForm({ onClose }: { onClose: () => void }) {
         <Select
           className="mt-5"
           isRequired={!state?.success}
-          label="Role"
+          label="Rol"
           labelPlacement="outside"
           name="role"
           placeholder="Seleccione un rol"
@@ -73,6 +63,18 @@ export default function UserForm({ onClose }: { onClose: () => void }) {
           <SelectItem key="receptionist">Recepcionista</SelectItem>
           <SelectItem key="admin">Admin</SelectItem>
         </Select>
+        <Input
+          defaultValue={state?.fieldData?.email}
+          isRequired
+          errorMessage="Ingrese un correo valido"
+          label="Correo"
+          labelPlacement="outside"
+          name="email"
+          placeholder="Ingrese su correo"
+          type="email"
+          className="mb-4"
+        />
+
         <Input
           defaultValue={state?.fieldData?.password}
           isRequired
@@ -83,6 +85,7 @@ export default function UserForm({ onClose }: { onClose: () => void }) {
           placeholder="Ingrese su contraseña"
           type="password"
         />
+        <AvatarUpload />
         <Button
           isDisabled={isPending}
           color="primary"

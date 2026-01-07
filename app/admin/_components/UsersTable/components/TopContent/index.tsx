@@ -9,7 +9,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { PlusIcon, Search } from "lucide-react";
-import { User } from "../../data";
+import { User } from "@/types";
 import UserForm from "../../../UserForm";
 
 export default function TopContent({

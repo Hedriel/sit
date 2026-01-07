@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { redirectToHome } from "@/lib/utils";
 
 export async function login(previousState: unknown, formData: FormData) {
   const supabase = await createClient();
@@ -22,6 +22,6 @@ export async function login(previousState: unknown, formData: FormData) {
       fieldData: { username },
     };
   } else {
-    redirect("/");
+    redirectToHome();
   }
 }
