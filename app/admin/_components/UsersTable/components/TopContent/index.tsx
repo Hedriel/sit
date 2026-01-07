@@ -11,6 +11,7 @@ import {
 import { PlusIcon, Search } from "lucide-react";
 import { User } from "@/types";
 import UserForm from "../../../UserForm";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export default function TopContent({
   filterValue,
@@ -24,6 +25,7 @@ export default function TopContent({
   users: User[];
 }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const isMobile = useIsMobile();
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -54,7 +56,13 @@ export default function TopContent({
         </div>
       </div>
 
-      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        placement={isMobile ? "bottom" : "center"}
+        scrollBehavior="inside"
+        backdrop="blur"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">
             Crear Usuario
