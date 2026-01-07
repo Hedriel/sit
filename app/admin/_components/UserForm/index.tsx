@@ -30,6 +30,7 @@ export default function UserForm({ onClose }: { onClose: () => void }) {
     <>
       <Form action={formAction}>
         <Input
+          autoFocus
           defaultValue={state?.fieldData?.first_name}
           isRequired
           errorMessage="Ingrese un nombre valido"
