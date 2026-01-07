@@ -14,9 +14,16 @@ import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
 import { useState } from "react";
 import UserCard from "@/components/UserCard";
 import NavLinks from "./_components/NavLinks";
-import { User } from "@/types";
 
-export default function NavBar({ data }: { data: User }) {
+interface NavBarProps {
+  email: string;
+  first_name: string;
+  last_name: string;
+  avatar_url: string;
+  role: string;
+}
+
+export default function NavBar({ data }: { data: NavBarProps | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (

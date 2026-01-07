@@ -19,11 +19,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const data = await getUserProfile();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`antialiased ${manrope.className} max-w-7xl mx-auto`}>
         <Providers>
-          <NavBar data={data} />
+          <NavBar data={data || null} />
           {children}
         </Providers>
       </body>
