@@ -65,7 +65,7 @@ export default function AvatarUpload() {
           }
         `}
       >
-        <input name="avatar" {...getInputProps()} />
+        <input aria-label="Subir avatar" name="avatar" {...getInputProps()} />
 
         {preview ? (
           <div className="size-24 flex items-center justify-center relative">
