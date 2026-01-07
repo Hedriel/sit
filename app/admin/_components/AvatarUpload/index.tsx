@@ -7,22 +7,38 @@ import { Button, PressEvent } from "@heroui/button";
 
 export default function AvatarUpload() {
   const [preview, setPreview] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
       console.log(file);
+      setError(null);
       setPreview(URL.createObjectURL(file));
+    }
+  }, []);
+
+  const onDropRejected = useCallback((fileRejections: any[]) => {
+    const rejection = fileRejections[0];
+    if (rejection.errors[0].code === "file-too-large") {
+      setError("La imagen es demasiado grande. Máximo 2MB.");
+    } else if (rejection.errors[0].code === "too-many-files") {
+      setError("Solo puedes subir una imagen.");
+    } else if (rejection.errors[0].code === "file-invalid-type") {
+      setError("Formato no permitido. Usa JPG, PNG, GIF o WebP.");
+    } else {
+      setError("Error al subir la imagen.");
     }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    onDropRejected,
     accept: {
       "image/*": [".jpeg", ".jpg", ".png", ".gif", ".webp"],
     },
     maxFiles: 1,
-    maxSize: 4 * 1024 * 1024,
+    maxSize: 2 * 1024 * 1024,
   });
 
   const removeImage = (e: PressEvent) => {
@@ -31,7 +47,12 @@ export default function AvatarUpload() {
   };
 
   return (
-    <div className="mt-6 w-full">
+    <div className="mt-2 w-full">
+      {error && (
+        <div className="mb-2">
+          <span className="text-xs text-red-500">{error}</span>
+        </div>
+      )}
       <div
         {...getRootProps()}
         className={`
@@ -71,13 +92,12 @@ export default function AvatarUpload() {
             <UploadCloud className="size-10 text-muted-foreground" />
             <div className="space-y-1">
               <p className="text-base font-medium text-foreground">
-                {isDragActive ? "¡Soltá aquí!" : "Arrastrá tu foto"}
+                Selecciona o arrastra tu imagen
               </p>
               <p className="text-xs text-muted-foreground">
-                o click para seleccionar
-                <br />
-                máx. 4MB
+                {isDragActive ? "¡Soltá aquí!" : ""}
               </p>
+              <p className="text-xs text-muted-foreground">max. 2MB</p>
             </div>
           </div>
         )}

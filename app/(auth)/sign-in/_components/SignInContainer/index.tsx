@@ -14,7 +14,7 @@ export default function SignInContainer() {
   };
 
   return (
-    <div className="flex justify-center items-center min-w-full py-32">
+    <div className="flex justify-center items-center min-w-full pt-16 sm:py-32">
       <Card className="p-4 w-full max-w-xs">
         {showForgotPassword && (
           <Button
