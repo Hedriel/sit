@@ -68,7 +68,6 @@ export default function UsersTable({ users }: { users: User[] }) {
           emptyContent={"No se encontraron usuarios"}
           items={filteredUsers}
         >
-          {/* HeroUI TableBody expects a render function */}
           {(item) => (
             <TableRow key={item.id}>
               <TableCell className="min-w-16">
