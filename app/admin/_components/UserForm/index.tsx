@@ -42,7 +42,6 @@ export default function UserForm({
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    console.log("Estado de update", state);
     if (state?.success) {
       addToast({
         title: isEdit ? "Usuario editado" : "Usuario creado",

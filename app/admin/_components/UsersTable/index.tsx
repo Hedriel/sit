@@ -23,6 +23,7 @@ import UserForm from "../UserForm";
 import { useState } from "react";
 export default function UsersTable({ users }: { users: User[] }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const {
     filterValue,
@@ -31,16 +32,29 @@ export default function UsersTable({ users }: { users: User[] }) {
     filteredItems: filteredUsers,
   } = useUserFilter(users);
 
-  const handleDeleteUser = (userId: string) => {
-    deleteUser(userId).then(({ success }) => {
-      success &&
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      const { success } = await deleteUser(userId);
+      if (success) {
         addToast({
-          icon: <Trash2 size={18} />,
           title: "Usuario eliminado",
           description: "El usuario se ha eliminado correctamente",
           color: "success",
         });
-    });
+      } else {
+        addToast({
+          title: "Error",
+          description: "No se pudo eliminar el usuario",
+          color: "danger",
+        });
+      }
+    } catch (error) {
+      addToast({
+        title: "Error inesperado",
+        description: "Intenta nuevamente",
+        color: "danger",
+      });
+    }
   };
 
   return (
@@ -112,6 +126,11 @@ export default function UsersTable({ users }: { users: User[] }) {
 
                   <Tooltip color="danger" content="Eliminar Usuario">
                     <span
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && handleDeleteUser(item.id)
+                      }
                       onClick={() => handleDeleteUser(item.id)}
                       className="text-lg text-danger cursor-pointer active:opacity-50"
                     >
