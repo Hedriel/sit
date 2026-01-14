@@ -1,6 +1,5 @@
 import { getUserProfile } from "@/lib/auth/user";
 import NavBarWrapper from "./_components/NavBarWrapper";
-import { Suspense } from "react";
 
 export default async function NavBar() {
   const data = await getUserProfile();

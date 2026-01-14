@@ -49,7 +49,7 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
-  if (!request.nextUrl.pathname.startsWith("/admin")) {
+  if (request.nextUrl.pathname.startsWith("/admin")) {
     if (user?.user_metadata?.role !== "admin") {
       const url = request.nextUrl.clone();
       url.pathname = "/";
