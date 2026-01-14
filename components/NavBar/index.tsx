@@ -1,67 +1,31 @@
-"use client";
+import { getUserProfile } from "@/lib/auth/user";
+import NavBarWrapper from "./_components/NavBarWrapper";
+import { Suspense } from "react";
 
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-} from "@heroui/react";
+export default async function NavBar() {
+  const data = await getUserProfile();
 
-import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
-
-import { useState } from "react";
-import UserCard from "@/components/UserCard";
-import NavLinks from "./_components/NavLinks";
-
-interface NavBarProps {
-  email: string;
-  first_name: string;
-  last_name: string;
-  avatar_url: string;
-  role: string;
+  return <NavBarWrapper data={data || null} />;
 }
 
-export default function NavBar({ data }: { data: NavBarProps | null }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+export const NavBarSkeleton = () => {
   return (
-    <Navbar isMenuOpen={isMenuOpen} maxWidth="full">
-      <NavbarBrand className="hidden sm:flex">
-        <span className="font-bold text-inherit  text-2xl">S.I.T</span>
-      </NavbarBrand>
-
-      {data ? (
-        <>
-          {/* Desktop */}
-          <NavbarContent className="hidden sm:flex gap-4" justify="center">
-            <NavLinks role={data?.role} />
-          </NavbarContent>
-
-          {/* Mobile */}
-          <NavbarContent className="sm:hidden" justify="start">
-            <NavbarMenuToggle onChange={(value) => setIsMenuOpen(value)} />
-          </NavbarContent>
-          <NavbarMenu className="sm:hidden">
-            <NavLinks setIsMenuOpen={setIsMenuOpen} role={data?.role} />
-          </NavbarMenu>
-
-          <NavbarContent justify="end">
-            <NavbarItem>
-              <UserCard
-                name={`${data.first_name} ${data.last_name}`!}
-                email={data.email!}
-                avatar={data?.avatar_url}
-              />
-            </NavbarItem>
-          </NavbarContent>
-        </>
-      ) : (
-        <div className="mr-auto">
-          <ThemeSwitcher />
+    <div className="max-h-12 p-6 flex items-center justify-between mb-8">
+      <div className="mt-4">
+        <span className="font-bold text-inherit text-2xl">S.I.T</span>
+      </div>
+      <div className="flex ml-40 gap-2 mt-4">
+        <div className="mr-1 h-4 w-16 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl my-4" />
+        <div className="mr-1 h-4 w-16 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl my-4" />
+        <div className="mr-1 h-4 w-16 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl my-4" />
+      </div>
+      <div className="h-14 w-64 flex items-center gap-2 mt-2">
+        <div className="size-10 min-w-10 rounded-full bg-gray-300 dark:bg-gray-800 animate-pulse" />
+        <div className="space-y-2 w-full">
+          <div className="mr-1 h-3 w-full bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl" />
+          <div className="mr-1 h-3 w-full bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl" />
         </div>
-      )}
-    </Navbar>
+      </div>
+    </div>
   );
-}
+};

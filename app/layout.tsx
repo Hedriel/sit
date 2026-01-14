@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
-import NavBar from "@/components/NavBar";
-import { getUserProfile } from "@/lib/auth/user";
+import NavBar, { NavBarSkeleton } from "@/components/NavBar";
 
 import "./globals.css";
 import { Providers } from "@/providers";
+import { Suspense } from "react";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -13,18 +13,18 @@ export const metadata: Metadata = {
   description: "Inicio de sesión",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const data = await getUserProfile();
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`antialiased ${manrope.className} max-w-7xl mx-auto`}>
         <Providers>
-          <NavBar data={data || null} />
+          <Suspense fallback={<NavBarSkeleton />}>
+            <NavBar />
+          </Suspense>
           {children}
         </Providers>
       </body>

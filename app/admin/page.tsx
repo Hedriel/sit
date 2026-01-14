@@ -1,22 +1,35 @@
-import { getUserProfile } from "@/lib/auth/user";
-import { getUsers } from "@/lib/data-access-layer/admin/users";
 import UsersTable from "./_components/UsersTable";
 
 import BreadCrumb from "./_components/BreadCrumb";
 
-import { redirectToHome } from "@/lib/utils";
+import { Suspense } from "react";
 export default async function AdminPage() {
-  const user = await getUserProfile();
-  if (user?.role !== "admin") {
-    redirectToHome();
-  }
-  const { users } = await getUsers();
-
   return (
     <div className="px-7">
       <BreadCrumb />
+      <Suspense fallback={<UsersTableSkeleton />}>
+        <UsersTable />
+      </Suspense>
+    </div>
+  );
+}
 
-      <UsersTable users={users || []} />
+function UsersTableSkeleton() {
+  return (
+    <div className="max-w-7xl mx-auto px-7">
+      <div className="mr-1 h-4 w-32 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl my-4" />
+      <div className="mt-5 flex justify-between">
+        <div className="mr-1 h-10 w-96 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl" />
+        <div className="mr-1 h-10 w-42 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl" />
+      </div>
+
+      <div className="mr-1 h-4 w-32 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl mt-5 mb-4" />
+
+      <div className="p-4 w-full  bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl ">
+        <div className="w-full h-10 bg-gray-200 dark:bg-gray-700 animate-pulse rounded-xl mb-2" />
+        <div className="w-full h-13 bg-gray-200 dark:bg-gray-700 animate-pulse rounded-xl mb-2" />
+        <div className="w-full h-13 bg-gray-200 dark:bg-gray-700 animate-pulse rounded-xl" />
+      </div>
     </div>
   );
 }

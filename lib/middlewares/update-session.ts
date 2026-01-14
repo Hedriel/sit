@@ -49,6 +49,14 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
+  if (!request.nextUrl.pathname.startsWith("/admin")) {
+    if (user?.user_metadata?.role !== "admin") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.redirect(url);
+    }
+  }
+
   if (
     !user &&
     !request.nextUrl.pathname.startsWith("/sign-in") &&

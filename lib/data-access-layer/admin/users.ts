@@ -1,7 +1,8 @@
 "use server";
-import { createClient } from "../../supabase/server";
+import { createClient } from "../../supabase/anon";
 
 export async function getUsers() {
+  "use cache";
   const supabase = await createClient();
 
   const { data: users } = await supabase.from("profiles").select("*");
