@@ -1,11 +1,8 @@
-import { getInstruments } from "@/lib/data-access-layer/instruments";
+import { Suspense } from "react";
+import Instruments from "./_components/instruments";
 
-export default async function Instruments() {
-  const { data, error } = await getInstruments();
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+export default async function InstrumentsPage() {
+  <Suspense fallback={<div className="text-center">Loading...</div>}>
+    <Instruments />
+  </Suspense>;
 }
