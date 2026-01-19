@@ -168,13 +168,13 @@ export default function UserForm({
               </Button>
             </Form>
           </ModalBody>
+          {state && (
+            <div className="my-2 text-center">
+              <p className="text-sm text-red-600">{state.message}</p>
+            </div>
+          )}
         </ModalContent>
       </Modal>
-      {state && (
-        <div className="my-2 text-center">
-          <p className="text-sm text-red-600">{state.message}</p>
-        </div>
-      )}
     </>
   );
 }

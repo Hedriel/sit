@@ -21,6 +21,6 @@ export async function getUserProfile() {
 
   return {
     ...user,
-    email: data?.user?.email!,
+    email: data!.user!.email!,
   };
 }

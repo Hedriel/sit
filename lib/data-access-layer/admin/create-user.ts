@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/anon";
 import { revalidatePath } from "next/cache";
 import { randomUUID } from "crypto";
 
@@ -63,7 +63,6 @@ export async function createUser(previousState: unknown, formData: FormData) {
     } else if (userError.message.includes("Password")) {
       message = "La contraseña es demasiado débil";
     }
-    // Podés agregar más casos según errores comunes de Supabase
 
     return {
       message,
