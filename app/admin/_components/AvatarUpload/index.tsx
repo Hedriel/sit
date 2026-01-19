@@ -55,24 +55,20 @@ export default function AvatarUpload() {
       )}
       <div
         {...getRootProps()}
-        className={`
-          relative mx-auto size-40 max-w-full cursor-pointer overflow-hidden rounded-2xl border-2 border-dashed border-gray-400
-          bg-muted/30 text-center transition-all duration-300 ease-in-out w-full flex items-center justify-center
-          ${
-            isDragActive
-              ? "border-primary bg-primary/10 shadow-2xl"
-              : "border-muted-foreground/40 hover:border-primary/60 hover:bg-accent/10 hover:shadow-xl"
-          }
-        `}
+        className={`bg-muted/30 relative mx-auto flex size-40 w-full max-w-full cursor-pointer items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-gray-400 text-center transition-all duration-300 ease-in-out ${
+          isDragActive
+            ? "border-primary bg-primary/10 shadow-2xl"
+            : "border-muted-foreground/40 hover:border-primary/60 hover:bg-accent/10 hover:shadow-xl"
+        } `}
       >
         <input aria-label="Subir avatar" name="avatar" {...getInputProps()} />
 
         {preview ? (
-          <div className="size-24 flex items-center justify-center relative">
+          <div className="relative flex size-24 items-center justify-center">
             <img
               src={preview}
               alt="Preview del avatar"
-              className="size-full object-cover rounded-2xl"
+              className="size-full rounded-2xl object-cover"
             />
 
             <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300">
@@ -81,7 +77,7 @@ export default function AvatarUpload() {
                 isIconOnly
                 type="button"
                 onPress={removeImage}
-                className=" absolute -top-3 -right-2 rounded-full  cursor-pointer"
+                className="absolute -top-3 -right-2 cursor-pointer rounded-full"
               >
                 <X size={16} />
               </Button>
@@ -89,15 +85,15 @@ export default function AvatarUpload() {
           </div>
         ) : (
           <div className="flex size-full flex-col items-center justify-center space-y-2 px-6">
-            <UploadCloud className="size-10 text-muted-foreground" />
+            <UploadCloud className="text-muted-foreground size-10" />
             <div className="space-y-1">
-              <p className="text-base font-medium text-foreground">
+              <p className="text-foreground text-base font-medium">
                 Selecciona o arrastra tu imagen
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 {isDragActive ? "¡Soltá aquí!" : ""}
               </p>
-              <p className="text-xs text-muted-foreground">max. 2MB</p>
+              <p className="text-muted-foreground text-xs">max. 2MB</p>
             </div>
           </div>
         )}

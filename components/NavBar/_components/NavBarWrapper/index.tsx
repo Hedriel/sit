@@ -29,13 +29,13 @@ export default function NavBarWrapper({ data }: { data: NavBarProps | null }) {
   return (
     <Navbar isMenuOpen={isMenuOpen} maxWidth="full">
       <NavbarBrand className="hidden sm:flex">
-        <span className="font-bold text-inherit  text-2xl">S.I.T</span>
+        <span className="text-2xl font-bold text-inherit">S.I.T</span>
       </NavbarBrand>
 
       {data ? (
         <>
           {/* Desktop */}
-          <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          <NavbarContent className="hidden gap-4 sm:flex" justify="center">
             <NavLinks role={data?.role} />
           </NavbarContent>
 

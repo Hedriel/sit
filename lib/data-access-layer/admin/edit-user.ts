@@ -55,7 +55,7 @@ export async function editUser(previousState: unknown, formData: FormData) {
 
   const { error: userError } = await supabase.auth.admin.updateUserById(
     id,
-    attributes
+    attributes,
   );
 
   if (userError) {

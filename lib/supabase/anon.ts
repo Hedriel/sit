@@ -16,6 +16,6 @@ export function createClient() {
         persistSession: false,
         detectSessionInUrl: false,
       },
-    }
+    },
   );
 }

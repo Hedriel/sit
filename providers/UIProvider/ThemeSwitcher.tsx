@@ -18,7 +18,7 @@ export function ThemeSwitcher({ showText = false }: { showText?: boolean }) {
 
   return (
     <button
-      className="cursor-pointer flex items-center gap-2 w-full justify-center h-10"
+      className="flex h-10 w-full cursor-pointer items-center justify-center gap-2"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "dark" ? <Sun size={28} /> : <Moon size={28} />}

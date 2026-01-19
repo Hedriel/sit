@@ -28,7 +28,7 @@ export default function TopContent({
   return (
     <>
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex items-end justify-between gap-3">
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
@@ -48,7 +48,7 @@ export default function TopContent({
             </Button>
           </div>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <span className="text-default-400 text-small">
             Total {users.length} usuarios
           </span>

@@ -36,7 +36,7 @@ export default function UserForm({
 }) {
   const [state, formAction, isPending] = useActionState(
     isEdit ? editUser : createUser,
-    undefined
+    undefined,
   );
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const isMobile = useIsMobile();
@@ -171,7 +171,7 @@ export default function UserForm({
         </ModalContent>
       </Modal>
       {state && (
-        <div className="text-center my-2">
+        <div className="my-2 text-center">
           <p className="text-sm text-red-600">{state.message}</p>
         </div>
       )}

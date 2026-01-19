@@ -34,7 +34,7 @@ export default function UserCard({ name, email, avatar }: UserCardProps) {
         <DropdownItem className="p-0" key="theme">
           <ThemeSwitcher />
         </DropdownItem>
-        <DropdownItem className="p-0 " key="logout">
+        <DropdownItem className="p-0" key="logout">
           <LogOut />
         </DropdownItem>
       </DropdownMenu>

@@ -5,10 +5,10 @@ import { Form, Input, Button } from "@heroui/react";
 export default function ForgotPasswordForm() {
   return (
     <>
-      <h1 className="text-lg font-bold text-center w-full mb-10">
+      <h1 className="mb-10 w-full text-center text-lg font-bold">
         Recuperar contraseña
       </h1>
-      <Form className="w-full max-w-xs flex flex-col mb-4">
+      <Form className="mb-4 flex w-full max-w-xs flex-col">
         <Input
           isRequired
           errorMessage="Ingrese un email valido"

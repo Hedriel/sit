@@ -10,7 +10,7 @@ export default function BottomContent({
   setPage: (page: number) => void;
 }) {
   return (
-    <div className="py-2 px-2 flex justify-between items-center mx-auto">
+    <div className="mx-auto flex items-center justify-between px-2 py-2">
       <Pagination
         className="cursor-pointer"
         isCompact

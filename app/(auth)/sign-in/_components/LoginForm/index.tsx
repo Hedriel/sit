@@ -12,10 +12,10 @@ export default function LoginForm({ onForgotPasswordClick }: LoginFormProps) {
   const [state, formAction, isPending] = useActionState(login, undefined);
   return (
     <>
-      <h1 className="text-2xl font-bold text-center w-full mb-10">
+      <h1 className="mb-10 w-full text-center text-2xl font-bold">
         Iniciar Sesión
       </h1>
-      <Form className="w-full max-w-xs flex flex-col " action={formAction}>
+      <Form className="flex w-full max-w-xs flex-col" action={formAction}>
         <Input
           defaultValue={state?.fieldData?.username}
           isRequired
@@ -38,7 +38,7 @@ export default function LoginForm({ onForgotPasswordClick }: LoginFormProps) {
         />
         <button
           type="button"
-          className="text-xs text-primary ml-auto mb-4 text-right cursor-pointer hover:text-primary/80 transition-colors duration-300"
+          className="text-primary hover:text-primary/80 mb-4 ml-auto cursor-pointer text-right text-xs transition-colors duration-300"
           onClick={onForgotPasswordClick}
         >
           Olvide mi contraseña
@@ -53,7 +53,7 @@ export default function LoginForm({ onForgotPasswordClick }: LoginFormProps) {
         </Button>
       </Form>
       {state && (
-        <div className="text-center mt-4">
+        <div className="mt-4 text-center">
           <p className="text-sm text-red-600">{state.message}</p>
         </div>
       )}

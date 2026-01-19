@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`antialiased ${manrope.className} max-w-7xl mx-auto`}>
+      <body className={`antialiased ${manrope.className} mx-auto max-w-7xl`}>
         <Providers>
           <Suspense fallback={<NavBarSkeleton />}>
             <NavBar />

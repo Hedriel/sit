@@ -8,22 +8,22 @@ export default function NavBarSkeleton() {
   const isLoggedIn = pathname === "/sign-in" || pathname === "/sign-up";
 
   return (
-    <div className="hidden sm:flex max-h-12 p-6  items-center justify-between mb-4">
+    <div className="mb-4 hidden max-h-12 items-center justify-between p-6 sm:flex">
       <div className="mt-4">
-        <span className="font-bold text-inherit text-2xl">S.I.T</span>
+        <span className="text-2xl font-bold text-inherit">S.I.T</span>
       </div>
       {!isLoggedIn && (
         <>
-          <div className="flex ml-40 gap-2 mt-4">
-            <div className="mr-1 h-4 w-16 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl my-4" />
-            <div className="mr-1 h-4 w-16 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl my-4" />
-            <div className="mr-1 h-4 w-16 bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl my-4" />
+          <div className="mt-4 ml-40 flex gap-2">
+            <div className="my-4 mr-1 h-4 w-16 animate-pulse rounded-xl bg-gray-300 dark:bg-gray-800" />
+            <div className="my-4 mr-1 h-4 w-16 animate-pulse rounded-xl bg-gray-300 dark:bg-gray-800" />
+            <div className="my-4 mr-1 h-4 w-16 animate-pulse rounded-xl bg-gray-300 dark:bg-gray-800" />
           </div>
-          <div className="h-14 w-64 flex items-center gap-2 mt-2">
-            <div className="size-10 min-w-10 rounded-full bg-gray-300 dark:bg-gray-800 animate-pulse" />
-            <div className="space-y-2 w-full">
-              <div className="mr-1 h-3 w-full bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl" />
-              <div className="mr-1 h-3 w-full bg-gray-300 dark:bg-gray-800 animate-pulse rounded-xl" />
+          <div className="mt-2 flex h-14 w-64 items-center gap-2">
+            <div className="size-10 min-w-10 animate-pulse rounded-full bg-gray-300 dark:bg-gray-800" />
+            <div className="w-full space-y-2">
+              <div className="mr-1 h-3 w-full animate-pulse rounded-xl bg-gray-300 dark:bg-gray-800" />
+              <div className="mr-1 h-3 w-full animate-pulse rounded-xl bg-gray-300 dark:bg-gray-800" />
             </div>
           </div>
         </>

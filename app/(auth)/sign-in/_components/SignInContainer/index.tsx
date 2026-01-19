@@ -14,14 +14,14 @@ export default function SignInContainer() {
   };
 
   return (
-    <div className="flex justify-center items-center min-w-full pt-16 sm:py-32">
-      <Card className="p-4 w-full max-w-xs">
+    <div className="flex min-w-full items-center justify-center pt-16 sm:py-32">
+      <Card className="w-full max-w-xs p-4">
         {showForgotPassword && (
           <Button
             isIconOnly
             variant="light"
             size="sm"
-            className="absolute left-2 top-3.5"
+            className="absolute top-3.5 left-2"
             onPress={() => setShowForgotPassword(false)}
           >
             <ArrowLeft size={20} />

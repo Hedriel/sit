@@ -118,7 +118,7 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
                         setSelectedUser(item);
                         onOpen();
                       }}
-                      className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                      className="text-default-400 cursor-pointer text-lg active:opacity-50"
                     >
                       <PenLine size={18} />
                     </span>
@@ -132,7 +132,7 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
                         e.key === "Enter" && handleDeleteUser(item.id)
                       }
                       onClick={() => handleDeleteUser(item.id)}
-                      className="text-lg text-danger cursor-pointer active:opacity-50"
+                      className="text-danger cursor-pointer text-lg active:opacity-50"
                     >
                       <Trash2 size={18} />
                     </span>
