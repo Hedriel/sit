@@ -1,15 +1,17 @@
 "use server";
-import { createClient } from "../../supabase/anon";
+import { createClient } from "../../../supabase/clients/anon";
+import { User } from "@/types";
 
 export async function getUsers() {
   "use cache";
   const supabase = await createClient();
 
-  const { data: users } = await supabase.from("profiles").select("*");
+  const { data: profiles } = await supabase.from("profiles").select("*");
 
-  users?.forEach((user) => {
-    user.fullname = user.first_name + " " + user.last_name;
-  });
+  const users: User[] = (profiles || []).map((profile) => ({
+    ...profile,
+    fullname: `${profile.first_name || ""} ${profile.last_name || ""}`.trim(),
+  }));
 
   return { users };
 }
@@ -17,13 +19,20 @@ export async function getUsers() {
 export async function getUserById(id: string) {
   const supabase = await createClient();
 
-  const { data: user } = await supabase
+  const { data: profile } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", id)
     .single();
 
-  user.fullname = user.first_name + " " + user.last_name;
+  if (!profile) {
+    return { user: null };
+  }
+
+  const user: User = {
+    ...profile,
+    fullname: `${profile.first_name || ""} ${profile.last_name || ""}`.trim(),
+  };
 
   return { user };
 }

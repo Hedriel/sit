@@ -1,6 +1,6 @@
 "use server";
 import { redirect } from "next/navigation";
-import { createClient } from "../../supabase/server";
+import { createClient } from "../../../supabase/clients/server";
 
 export async function logout() {
   const supabase = await createClient();

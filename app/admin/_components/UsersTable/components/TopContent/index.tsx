@@ -1,13 +1,5 @@
 "use client";
-import {
-  Button,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  useDisclosure,
-} from "@heroui/react";
+import { Button, Input, useDisclosure } from "@heroui/react";
 import { PlusIcon, Search } from "lucide-react";
 import { User } from "@/types";
 import UserForm from "../../../UserForm";

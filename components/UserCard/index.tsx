@@ -13,7 +13,7 @@ import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
 interface UserCardProps {
   name: string;
   email: string;
-  avatar?: string;
+  avatar: string | null;
 }
 
 export default function UserCard({ name, email, avatar }: UserCardProps) {

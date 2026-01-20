@@ -52,7 +52,7 @@ export default function UserForm({
       });
       onClose();
     }
-  }, [state?.success, onClose]);
+  }, [state?.success, onClose, isEdit]);
 
   return (
     <>
@@ -72,7 +72,10 @@ export default function UserForm({
             <Form action={formAction}>
               {isEdit && <input hidden defaultValue={data?.id} name="id" />}
               <Input
-                defaultValue={state?.fieldData?.first_name || data?.first_name}
+                defaultValue={
+                  (state?.fieldData?.first_name || data?.first_name) ??
+                  undefined
+                }
                 isRequired
                 errorMessage="Ingrese un nombre valido"
                 label="Nombre"
@@ -83,7 +86,9 @@ export default function UserForm({
                 className="mb-4"
               />
               <Input
-                defaultValue={state?.fieldData?.last_name || data?.last_name}
+                defaultValue={
+                  (state?.fieldData?.last_name || data?.last_name) ?? undefined
+                }
                 isRequired
                 errorMessage="Ingrese un apellido valido"
                 label="Apellido"
@@ -108,7 +113,9 @@ export default function UserForm({
                 <SelectItem key="admin">Admin</SelectItem>
               </Select>
               <Input
-                defaultValue={state?.fieldData?.email || data?.email}
+                defaultValue={
+                  (state?.fieldData?.email || data?.email) ?? undefined
+                }
                 isRequired
                 errorMessage="Ingrese un correo valido"
                 label="Correo"

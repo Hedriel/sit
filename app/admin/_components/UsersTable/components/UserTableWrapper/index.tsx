@@ -48,7 +48,7 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
           color: "danger",
         });
       }
-    } catch (error) {
+    } catch {
       addToast({
         title: "Error inesperado",
         description: "Intenta nuevamente",

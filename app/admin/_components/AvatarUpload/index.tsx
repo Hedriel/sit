@@ -3,7 +3,9 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { UploadCloud, X } from "lucide-react";
-import { Button, PressEvent } from "@heroui/button";
+import { Button } from "@heroui/button";
+import { FileRejection } from "react-dropzone";
+import Image from "next/image";
 
 export default function AvatarUpload() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -18,7 +20,7 @@ export default function AvatarUpload() {
     }
   }, []);
 
-  const onDropRejected = useCallback((fileRejections: any[]) => {
+  const onDropRejected = useCallback((fileRejections: FileRejection[]) => {
     const rejection = fileRejections[0];
     if (rejection.errors[0].code === "file-too-large") {
       setError("La imagen es demasiado grande. Máximo 2MB.");
@@ -41,7 +43,7 @@ export default function AvatarUpload() {
     maxSize: 2 * 1024 * 1024,
   });
 
-  const removeImage = (e: PressEvent) => {
+  const removeImage = () => {
     if (preview) URL.revokeObjectURL(preview);
     setPreview(null);
   };
@@ -65,7 +67,9 @@ export default function AvatarUpload() {
 
         {preview ? (
           <div className="relative flex size-24 items-center justify-center">
-            <img
+            <Image
+              height={100}
+              width={100}
               src={preview}
               alt="Preview del avatar"
               className="size-full rounded-2xl object-cover"

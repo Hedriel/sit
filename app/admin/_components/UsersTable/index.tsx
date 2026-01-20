@@ -3,5 +3,5 @@ import UsersTableWrapper from "./components/UserTableWrapper";
 
 export default async function UsersTable() {
   const { users } = await getUsers();
-  return <UsersTableWrapper users={users || []} />;
+  return <UsersTableWrapper users={users} />;
 }

@@ -1,5 +1,5 @@
 "use server";
-import { createClient } from "../supabase/anon";
+import { createClient } from "../../supabase/clients/anon";
 
 export async function getInstruments() {
   "use cache";

@@ -1,9 +1,7 @@
-export type User = {
-  id: string;
+import { Database } from "./database.types";
+
+export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+
+export type User = Profile & {
   fullname: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-  avatar_url?: string;
-  email: string;
 };
