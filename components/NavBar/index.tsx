@@ -5,7 +5,10 @@ import { redirectToLogin } from "@/lib/utils";
 export default async function NavBar() {
   const data = await getUserProfile();
 
-  if (!data) return redirectToLogin();
+  if (!data) {
+    redirectToLogin();
+    return;
+  }
 
   return <NavBarWrapper data={data} />;
 }
