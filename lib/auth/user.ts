@@ -1,5 +1,4 @@
 import { createClient } from "@/supabase/clients/server";
-import { redirectToLogin } from "../utils";
 
 export async function getUserProfile() {
   const supabase = await createClient();
@@ -7,7 +6,7 @@ export async function getUserProfile() {
   const { data } = await supabase.auth.getUser();
 
   if (!data || !data.user) {
-    return redirectToLogin();
+    return null;
   }
 
   const { data: user, error } = await supabase
@@ -17,7 +16,7 @@ export async function getUserProfile() {
     .single();
 
   if (error || !user) {
-    return redirectToLogin();
+    return null;
   }
 
   return {

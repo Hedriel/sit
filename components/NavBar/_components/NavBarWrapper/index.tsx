@@ -14,8 +14,16 @@ import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
 import { useState } from "react";
 import UserCard from "@/components/UserCard";
 import NavLinks from "../NavLinks";
-import { User } from "@/types";
-export default function NavBarWrapper({ data }: { data: User }) {
+
+interface NavBarWrapperProps {
+  email: string | undefined;
+  first_name: string | null;
+  last_name: string | null;
+  avatar_url: string | null;
+  role: string;
+}
+
+export default function NavBarWrapper({ data }: { data: NavBarWrapperProps }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
