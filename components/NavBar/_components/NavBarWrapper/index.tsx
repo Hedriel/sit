@@ -23,7 +23,11 @@ interface NavBarWrapperProps {
   role: string;
 }
 
-export default function NavBarWrapper({ data }: { data: NavBarWrapperProps }) {
+export default function NavBarWrapper({
+  data,
+}: {
+  data: NavBarWrapperProps | null;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
