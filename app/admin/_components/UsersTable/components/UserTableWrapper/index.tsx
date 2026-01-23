@@ -1,8 +1,11 @@
 "use client";
 
 import { PenLine, Trash2 } from "lucide-react";
-import { addToast, Chip, TableCell, Tooltip } from "@heroui/react";
 import {
+  addToast,
+  Chip,
+  TableCell,
+  Tooltip,
   Table,
   TableHeader,
   TableColumn,
@@ -10,6 +13,12 @@ import {
   TableRow,
   User as UserCard,
   useDisclosure,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
 } from "@heroui/react";
 
 import TopContent from "../../components/TopContent";
@@ -23,8 +32,15 @@ import UserForm from "../../../UserForm";
 import { useState } from "react";
 export default function UsersTableWrapper({ users }: { users: User[] }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onOpenChange: onDeleteOpenChange,
+    onClose: onDeleteClose,
+  } = useDisclosure();
 
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [userToDelete, setUserToDelete] = useState<string | null>(null);
   const {
     filterValue,
     onSearchChange,
@@ -48,13 +64,22 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
           color: "danger",
         });
       }
-    } catch {
+    } catch (error) {
+      console.error("Error deleting user:", error);
       addToast({
         title: "Error inesperado",
         description: "Intenta nuevamente",
         color: "danger",
       });
+    } finally {
+      onDeleteClose();
+      setUserToDelete(null);
     }
+  };
+
+  const confirmDelete = (userId: string) => {
+    setUserToDelete(userId);
+    onDeleteOpen();
   };
 
   return (
@@ -85,19 +110,17 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
           {(item) => (
             <TableRow key={item.id}>
               <TableCell className="min-w-16">
-                <>
-                  <UserCard
-                    className="hidden sm:inline-flex"
-                    avatarProps={{
-                      radius: "lg",
-                      src: item.avatar_url || defaultProfile.src,
-                    }}
-                    name={item.fullname}
-                  />
-                  <div className="sm:hidden">
-                    <p className="text-sm">{item.fullname}</p>
-                  </div>
-                </>
+                <UserCard
+                  className="hidden sm:inline-flex"
+                  avatarProps={{
+                    radius: "lg",
+                    src: item.avatar_url || defaultProfile.src,
+                  }}
+                  name={item.fullname}
+                />
+                <div className="sm:hidden">
+                  <p className="text-sm">{item.fullname}</p>
+                </div>
               </TableCell>
               <TableCell className="text-sm">{item.email}</TableCell>
               <TableCell>
@@ -114,6 +137,15 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
                 <div className="relative flex justify-center gap-2">
                   <Tooltip content="Editar Usuario">
                     <span
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedUser(item);
+                          onOpen();
+                        }
+                      }}
                       onClick={() => {
                         setSelectedUser(item);
                         onOpen();
@@ -128,10 +160,13 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
                     <span
                       role="button"
                       tabIndex={0}
-                      onKeyDown={(e) =>
-                        e.key === "Enter" && handleDeleteUser(item.id)
-                      }
-                      onClick={() => handleDeleteUser(item.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          confirmDelete(item.id);
+                        }
+                      }}
+                      onClick={() => confirmDelete(item.id)}
                       className="text-danger cursor-pointer text-lg active:opacity-50"
                     >
                       <Trash2 size={18} />
@@ -156,6 +191,37 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
           onOpenChange={onOpenChange}
         />
       )}
+
+      <Modal isOpen={isDeleteOpen} onOpenChange={onDeleteOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Confirmar eliminación
+              </ModalHeader>
+              <ModalBody>
+                <p>
+                  ¿Estás seguro de que deseas eliminar este usuario? Esta acción
+                  no se puede deshacer.
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="default" variant="light" onPress={onClose}>
+                  Cancelar
+                </Button>
+                <Button
+                  color="danger"
+                  onPress={() =>
+                    userToDelete && handleDeleteUser(userToDelete)
+                  }
+                >
+                  Eliminar
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 }
