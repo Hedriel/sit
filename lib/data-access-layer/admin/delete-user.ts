@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/supabase/clients/server";
+import { createClient } from "@/supabase/clients/anon";
 import { revalidatePath } from "next/cache";
 
 export async function deleteUser(id: string) {
