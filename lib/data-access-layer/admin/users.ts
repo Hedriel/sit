@@ -1,9 +1,11 @@
 "use server";
+import { cacheLife } from "next/cache";
 import { createClient } from "../../../supabase/clients/anon";
 import { User } from "@/types";
 
 export async function getUsers() {
   "use cache";
+  cacheLife({ stale: 300, revalidate: 300 });
   const supabase = await createClient();
 
   const { data: profiles } = await supabase.from("profiles").select("*");
