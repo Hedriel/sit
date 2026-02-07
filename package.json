@@ -15,6 +15,7 @@
     "@heroui/input": "^2.4.31",
     "@heroui/react": "^2.8.8",
     "@heroui/theme": "^2.4.26",
+    "@heroui/toast": "^2.0.20",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.94.1",
     "framer-motion": "^12.31.0",
