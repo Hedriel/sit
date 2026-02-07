@@ -1,27 +1,37 @@
 "use server";
 
-import { createClient } from "@/supabase/clients/server";
-import { redirectToHome } from "@/lib/utils";
+import { auth } from "@/lib/better-auth/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function login(previousState: unknown, formData: FormData) {
-  const supabase = await createClient();
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email: username,
-    password,
+  const data = await auth.api.signInEmail({
+    body: {
+      email: username,
+      password,
+      rememberMe: true,
+    },
+
+    headers: await headers(),
   });
 
-  if (error) {
-    if (error.code === "invalid_credentials") {
-      return { message: "Credenciales invalidas", fieldData: { username } };
-    }
+
+  if (!data.user) {
     return {
-      message: "Algo salio mal, vuelve a intentar nuevamente",
+      message: "Credenciales invalidas",
       fieldData: { username },
     };
-  } else {
-    redirectToHome();
   }
+
+  if (data.user.userMetadata?.role !== "admin") {
+    return {
+      message: "No tienes permisos para iniciar sesion",
+      fieldData: { username },
+    };
+  }
+
+  redirect("/");
 }

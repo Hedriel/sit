@@ -1,26 +1,20 @@
-import { createClient } from "@/supabase/clients/server";
+import { auth } from "@/lib/better-auth/auth";
+import { headers } from "next/headers";
 
 export async function getUserProfile() {
-  const supabase = await createClient();
+  const sessionData = await auth.api.getSession({
+    headers: await headers()
+  })
 
-  const { data } = await supabase.auth.getUser();
 
-  if (!data || !data.user) {
+  if (!sessionData) {
     return null;
   }
 
-  const { data: user, error } = await supabase
-    .from("profiles")
-    .select("first_name, last_name, avatar_url, role")
-    .eq("id", data.user.id)
-    .single();
-
-  if (error || !user) {
-    return null;
-  }
+  const user = sessionData.user.userMetadata;
 
   return {
     ...user,
-    email: data.user.email,
+    email: sessionData.user.email,
   };
 }
