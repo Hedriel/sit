@@ -1,4 +1,4 @@
-import { auth } from "@/lib/better-auth/auth";
+import { auth } from "@/lib/auth/auth";
 import { NextResponse, type NextRequest } from "next/server";
 
 
@@ -18,13 +18,13 @@ export async function updateSession(request: NextRequest) {
       url.pathname = "/";
       return NextResponse.redirect(url);
     }
-  }
 
-  if (request.nextUrl.pathname.startsWith("/admin")) {
-    if (session?.user?.userMetadata?.role !== "admin") {
-      const url = request.nextUrl.clone();
-      url.pathname = "/";
-      return NextResponse.redirect(url);
+    if (request.nextUrl.pathname.startsWith("/admin")) {
+      if (session.user.role !== "admin") {
+        const url = request.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
     }
   }
 

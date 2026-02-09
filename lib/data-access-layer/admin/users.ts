@@ -1,5 +1,5 @@
 "use server";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { createClient } from "../../../supabase/clients/anon";
 import { User } from "@/types";
 
@@ -8,7 +8,10 @@ export async function getUsers() {
   cacheLife({ stale: 300, revalidate: 300 });
   const supabase = await createClient();
 
-  const { data: profiles } = await supabase.from("profiles").select("*");
+  const { data: profiles } = await supabase
+    .from("user")
+    .select("*")
+    .eq("banned", false);
 
   const users: User[] = (profiles || []).map((profile) => ({
     ...profile,
@@ -22,7 +25,7 @@ export async function getUserById(id: string) {
   const supabase = await createClient();
 
   const { data: profile } = await supabase
-    .from("profiles")
+    .from("user")
     .select("*")
     .eq("id", id)
     .single();

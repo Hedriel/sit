@@ -114,7 +114,7 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
                   className="hidden sm:inline-flex"
                   avatarProps={{
                     radius: "lg",
-                    src: item.avatar_url || defaultProfile.src,
+                    src: item.image || defaultProfile.src,
                   }}
                   name={item.fullname}
                 />

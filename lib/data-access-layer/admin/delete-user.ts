@@ -1,21 +1,28 @@
 "use server";
 
-import { createClient } from "@/supabase/clients/anon";
-import { revalidatePath } from "next/cache";
+import { updateTag, revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
 
 export async function deleteUser(id: string) {
-  const supabase = await createClient();
 
-  const { error } = await supabase.auth.admin.deleteUser(id);
+  const { success } = await auth.api.removeUser({
+    body: {
+      userId: id
+    },
+    headers: await headers()
+  })
 
-  if (error) {
-    console.error("Error deleting user:", error);
+  if (!success) {
+    console.error("Error deleting user");
     return {
       success: false,
-      message: error.message || "Error al eliminar el usuario",
+      message: "Error al eliminar el usuario",
     };
   }
 
-  revalidatePath("/admin");
+
+
+  revalidatePath('/admin');
   return { success: true };
 }

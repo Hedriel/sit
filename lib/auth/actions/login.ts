@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/lib/better-auth/auth";
+import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -22,13 +22,6 @@ export async function login(previousState: unknown, formData: FormData) {
   if (!data.user) {
     return {
       message: "Credenciales invalidas",
-      fieldData: { username },
-    };
-  }
-
-  if (data.user.userMetadata?.role !== "admin") {
-    return {
-      message: "No tienes permisos para iniciar sesion",
       fieldData: { username },
     };
   }

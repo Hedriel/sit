@@ -1,4 +1,4 @@
-import { auth } from "@/lib/better-auth/auth";
+import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 
 export async function getUserProfile() {
@@ -6,15 +6,13 @@ export async function getUserProfile() {
     headers: await headers()
   })
 
-
   if (!sessionData) {
     return null;
   }
 
-  const user = sessionData.user.userMetadata;
+  const user = sessionData.user;
 
   return {
     ...user,
-    email: sessionData.user.email,
   };
 }

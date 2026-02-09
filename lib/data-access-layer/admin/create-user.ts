@@ -1,8 +1,9 @@
 "use server";
 
 import { createClient } from "@/supabase/clients/anon";
-import { revalidatePath } from "next/cache";
+import { updateTag, revalidatePath } from "next/cache";
 import { randomUUID } from "crypto";
+import { auth } from "@/lib/auth/auth";
 
 export async function createUser(previousState: unknown, formData: FormData) {
   const supabase = await createClient();
@@ -43,33 +44,31 @@ export async function createUser(previousState: unknown, formData: FormData) {
   }
 
   // Creación del usuario
-  const { error: userError } = await supabase.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-    user_metadata: {
-      first_name,
-      last_name,
-      role,
-      avatar_url,
-    },
-  });
+  try {
+    auth.api.createUser({
+      body: {
+        email,
+        password,
+        name: `${first_name} ${last_name}`,
+        role: role as any,
+        data: {
+          first_name,
+          last_name,
+          image: avatar_url,
+        }
+      },
+    });
 
-  if (userError) {
-    let message = "Error al crear el usuario";
-
-    if (userError.message.includes("duplicate key")) {
-      message = "El correo ya está registrado";
-    } else if (userError.message.includes("Password")) {
-      message = "La contraseña es demasiado débil";
+  } catch (userError) {
+    if (userError) {
+      let message = "Error al crear el usuario";
+      return {
+        message,
+        fieldData: { email, first_name, last_name, role, password },
+      };
     }
-
-    return {
-      message,
-      fieldData: { email, first_name, last_name, role, password },
-    };
   }
 
-  revalidatePath("/admin");
+  revalidatePath('/admin');
   return { success: true };
 }

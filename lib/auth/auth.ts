@@ -3,6 +3,8 @@ import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
 import { Pool } from "pg";
 import bcrypt from "bcrypt";
+import { admin } from "better-auth/plugins";
+import { adminClient } from "better-auth/client/plugins";
 
 export const auth = betterAuth({
     database: new Pool({
@@ -14,6 +16,7 @@ export const auth = betterAuth({
     secret: process.env.BETTER_AUTH_SECRET,
     emailAndPassword: {
         enabled: true,
+        requireEmailVerification: false,
         password: {
             hash: async (password) => {
                 return await bcrypt.hash(password, 10);
@@ -31,27 +34,22 @@ export const auth = betterAuth({
     },
     user: {
         additionalFields: {
-            userMetadata: {
-                type: "json",
-                required: false,
-                input: false,
+            role: {
+                type: "string",
+                required: true,
+                input: true,
             },
-            appMetadata: {
-                type: "json",
-                required: false,
-                input: false,
+            first_name: {
+                type: "string",
+                required: true,
+                input: true,
             },
-            invitedAt: {
-                type: "date",
-                required: false,
-                input: false,
-            },
-            lastSignInAt: {
-                type: "date",
-                required: false,
-                input: false,
+            last_name: {
+                type: "string",
+                required: true,
+                input: true,
             },
         },
     },
-    plugins: [nextCookies()]
+    plugins: [nextCookies(), admin()]
 });

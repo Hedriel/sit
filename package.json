@@ -44,7 +44,7 @@
     "next-devtools-mcp": "^0.3.10",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "supabase": "^2.75.3",
+    "supabase": ">=1.8.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

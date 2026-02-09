@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/supabase/clients/anon";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { randomUUID } from "crypto";
 
 export async function editUser(previousState: unknown, formData: FormData) {
@@ -73,6 +73,7 @@ export async function editUser(previousState: unknown, formData: FormData) {
     };
   }
 
+  updateTag('admin-users');
   revalidatePath("/admin");
   return { success: true };
 }
