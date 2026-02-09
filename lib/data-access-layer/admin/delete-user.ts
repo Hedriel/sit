@@ -1,6 +1,6 @@
 "use server";
 
-import { updateTag, revalidatePath } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 

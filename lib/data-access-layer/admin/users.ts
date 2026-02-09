@@ -1,11 +1,11 @@
 "use server";
-import { cacheLife, cacheTag } from "next/cache";
+import { cacheTag } from "next/cache";
 import { createClient } from "../../../supabase/clients/anon";
 import { User } from "@/types";
 
 export async function getUsers() {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 300 });
+  cacheTag("users");
   const supabase = await createClient();
 
   const { data: profiles } = await supabase

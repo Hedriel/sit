@@ -8,7 +8,7 @@ import { ThemeProvider } from "next-themes";
 export function UIProvider({ children }: { children: ReactNode }) {
   return (
     <HeroUIProvider>
-      <ToastProvider placement="bottom-center" />
+      <ToastProvider />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"

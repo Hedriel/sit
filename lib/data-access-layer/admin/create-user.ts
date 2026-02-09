@@ -1,9 +1,10 @@
 "use server";
 
 import { createClient } from "@/supabase/clients/anon";
-import { updateTag, revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { randomUUID } from "crypto";
 import { auth } from "@/lib/auth/auth";
+import { updateTag } from "next/cache";
 
 export async function createUser(previousState: unknown, formData: FormData) {
   const supabase = await createClient();
@@ -45,7 +46,7 @@ export async function createUser(previousState: unknown, formData: FormData) {
 
   // Creación del usuario
   try {
-    auth.api.createUser({
+    await auth.api.createUser({
       body: {
         email,
         password,
@@ -69,6 +70,6 @@ export async function createUser(previousState: unknown, formData: FormData) {
     }
   }
 
-  revalidatePath('/admin');
+  revalidatePath("/admin");
   return { success: true };
 }

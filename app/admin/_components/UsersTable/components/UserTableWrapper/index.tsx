@@ -23,7 +23,6 @@ import {
 
 import TopContent from "../../components/TopContent";
 import defaultProfile from "@/public/images/default-user.webp";
-
 import { User } from "@/types";
 import { deleteUser } from "@/lib/data-access-layer/admin/delete-user";
 import { useUserFilter } from "@/hooks/useUserFilter";
@@ -56,6 +55,8 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
           title: "Usuario eliminado",
           description: "El usuario se ha eliminado correctamente",
           color: "success",
+          icon: <Trash2 size={18} />,
+
         });
       } else {
         addToast({
