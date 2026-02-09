@@ -1,5 +1,5 @@
 "use client";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 
 import {
   Form,
@@ -21,6 +21,7 @@ import AvatarUpload from "../AvatarUpload";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { User } from "@/types";
 import { Eye, EyeOff } from "lucide-react";
+
 export default function UserForm({
   onClose,
   isOpen,
@@ -39,10 +40,14 @@ export default function UserForm({
     undefined,
   );
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const lastProcessedState = useRef(state);
   const isMobile = useIsMobile();
 
+
   useEffect(() => {
-    if (state?.success) {
+    if (state?.success && state !== lastProcessedState.current) {
+      lastProcessedState.current = state;
+
       addToast({
         title: isEdit ? "Usuario editado" : "Usuario creado",
         description: isEdit
@@ -52,7 +57,7 @@ export default function UserForm({
       });
       onClose();
     }
-  }, [state?.success, onClose, isEdit]);
+  }, [state, onClose, isEdit]);
 
   return (
     <>
@@ -101,7 +106,7 @@ export default function UserForm({
               <Select
                 defaultSelectedKeys={data?.role && [data.role]}
                 className="mt-5"
-                isRequired={!state?.success}
+                isRequired
                 label="Rol"
                 labelPlacement="outside"
                 name="role"

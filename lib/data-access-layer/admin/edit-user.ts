@@ -1,8 +1,10 @@
 "use server";
 
 import { createClient } from "@/supabase/clients/anon";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { randomUUID } from "crypto";
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
 
 export async function editUser(previousState: unknown, formData: FormData) {
   const supabase = await createClient();
@@ -41,29 +43,39 @@ export async function editUser(previousState: unknown, formData: FormData) {
     avatar_url = urlData.publicUrl;
   }
 
-  const attributes = {
-    email,
-    email_confirm: true,
-    user_metadata: {
-      first_name,
-      last_name,
-      role,
-      ...(avatar_url && { avatar_url }),
-    },
-    ...(password && { password }),
-  };
+  try {
+    await auth.api.adminUpdateUser({
+      body: {
+        userId: id,
+        data: {
+          email,
+          name: `${first_name} ${last_name}`,
+          first_name,
+          last_name,
+          role,
+          ...(avatar_url && { image: avatar_url }),
+        },
+      },
+      headers: await headers()
+    });
 
-  const { error: userError } = await supabase.auth.admin.updateUserById(
-    id,
-    attributes,
-  );
+    if (password) {
+      await auth.api.setUserPassword({
+        body: {
+          userId: id,
+          newPassword: password,
+        },
+        headers: await headers()
+      });
+    }
 
-  if (userError) {
+  } catch (userError: any) {
+    console.log(userError)
     let message = "Error al editar el usuario";
 
-    if (userError.message.includes("duplicate key")) {
+    if (userError?.message?.includes("duplicate key")) {
       message = "El correo ya está registrado";
-    } else if (userError.message.includes("Password")) {
+    } else if (userError?.message?.includes("Password")) {
       message = "La contraseña es demasiado débil";
     }
 
@@ -73,6 +85,7 @@ export async function editUser(previousState: unknown, formData: FormData) {
     };
   }
 
+  updateTag('admin-users');
   revalidatePath("/admin");
   return { success: true };
 }

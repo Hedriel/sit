@@ -13,10 +13,10 @@ import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
 interface UserCardProps {
   name: string;
   email: string;
-  avatar: string | null;
+  image?: string | null | undefined;
 }
 
-export default function UserCard({ name, email, avatar }: UserCardProps) {
+export default function UserCard({ name, email, image }: UserCardProps) {
   if (!name || !email) return null;
   return (
     <Dropdown showArrow>
@@ -24,7 +24,7 @@ export default function UserCard({ name, email, avatar }: UserCardProps) {
         <User
           avatarProps={{
             size: "md",
-            src: avatar || defaultProfile.src,
+            src: image || defaultProfile.src,
           }}
           description={email}
           name={name}

@@ -19,7 +19,7 @@ interface NavBarWrapperProps {
   email: string | undefined;
   first_name: string | null;
   last_name: string | null;
-  avatar_url: string | null;
+  image?: string | null | undefined;
   role: string;
 }
 
@@ -56,7 +56,7 @@ export default function NavBarWrapper({
               <UserCard
                 name={`${data.first_name} ${data.last_name}`!}
                 email={data.email!}
-                avatar={data?.avatar_url}
+                image={data?.image}
               />
             </NavbarItem>
           </NavbarContent>
