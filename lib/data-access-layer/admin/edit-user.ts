@@ -1,10 +1,11 @@
 "use server";
 
 import { createClient } from "@/supabase/clients/anon";
-import { revalidatePath, updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { randomUUID } from "crypto";
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
+import { APIError } from "better-auth";
 
 export async function editUser(previousState: unknown, formData: FormData) {
   const supabase = await createClient();
@@ -17,7 +18,7 @@ export async function editUser(previousState: unknown, formData: FormData) {
   const password = formData.get("password") as string;
   const avatarFile = formData.get("avatar") as File | null;
 
-  let avatar_url: string | null = null;
+  let image: string | null = null;
 
   // Subida del avatar
   if (avatarFile && avatarFile.size > 0) {
@@ -40,7 +41,7 @@ export async function editUser(previousState: unknown, formData: FormData) {
       .from("profile-pictures")
       .getPublicUrl(fileName);
 
-    avatar_url = urlData.publicUrl;
+    image = urlData.publicUrl;
   }
 
   try {
@@ -53,10 +54,10 @@ export async function editUser(previousState: unknown, formData: FormData) {
           first_name,
           last_name,
           role,
-          ...(avatar_url && { image: avatar_url }),
+          ...(image && { image }),
         },
       },
-      headers: await headers()
+      headers: await headers(),
     });
 
     if (password) {
@@ -65,27 +66,18 @@ export async function editUser(previousState: unknown, formData: FormData) {
           userId: id,
           newPassword: password,
         },
-        headers: await headers()
+        headers: await headers(),
       });
     }
-
-  } catch (userError: any) {
-    console.log(userError)
-    let message = "Error al editar el usuario";
-
-    if (userError?.message?.includes("duplicate key")) {
-      message = "El correo ya está registrado";
-    } else if (userError?.message?.includes("Password")) {
-      message = "La contraseña es demasiado débil";
+  } catch (userError) {
+    if (userError instanceof APIError) {
+      return {
+        message: userError.message,
+        fieldData: { email, first_name, last_name, role },
+      };
     }
-
-    return {
-      message,
-      fieldData: { email, first_name, last_name, role },
-    };
   }
 
-  updateTag('admin-users');
   revalidatePath("/admin");
   return { success: true };
 }

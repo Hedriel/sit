@@ -1,14 +1,17 @@
 "use server";
 
-import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
+import { auth } from "@/lib/auth/auth";
+import { APIError } from "better-auth";
 
 export async function login(previousState: unknown, formData: FormData) {
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
 
-  const data = await auth.api.signInEmail({
+  try {
+    await auth.api.signInEmail({
     body: {
       email: username,
       password,
@@ -18,13 +21,22 @@ export async function login(previousState: unknown, formData: FormData) {
     headers: await headers(),
   });
 
-
-  if (!data.user) {
+  } catch (error) {
+    if (error instanceof APIError) {
+      console.log(error)
+      if (error.status === "UNAUTHORIZED") {
+        return {
+          message: "Usuario o contraseña incorrectos",
+          fieldData: { username },
+        };
+      }
+    }
     return {
-      message: "Credenciales invalidas",
+      message: "Error inesperado",
       fieldData: { username },
     };
   }
+
 
   redirect("/");
 }

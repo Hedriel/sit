@@ -1,10 +1,9 @@
 "use server";
 
 import { createClient } from "@/supabase/clients/anon";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { randomUUID } from "crypto";
 import { auth } from "@/lib/auth/auth";
-import { updateTag } from "next/cache";
 
 export async function createUser(previousState: unknown, formData: FormData) {
   const supabase = await createClient();
@@ -16,7 +15,7 @@ export async function createUser(previousState: unknown, formData: FormData) {
   const password = formData.get("password") as string;
   const avatarFile = formData.get("avatar") as File | null;
 
-  let avatar_url: string | null = null;
+  let image: string | null = null;
 
   // Subida del avatar
   if (avatarFile && avatarFile.size > 0) {
@@ -39,9 +38,9 @@ export async function createUser(previousState: unknown, formData: FormData) {
       .from("profile-pictures")
       .getPublicUrl(fileName);
 
-    avatar_url = urlData.publicUrl;
+    image = urlData.publicUrl;
 
-    console.log(avatar_url);
+    console.log(image);
   }
 
   // Creación del usuario
@@ -55,7 +54,7 @@ export async function createUser(previousState: unknown, formData: FormData) {
         data: {
           first_name,
           last_name,
-          image: avatar_url,
+          image
         }
       },
     });
