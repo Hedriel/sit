@@ -3,8 +3,8 @@ import { headers } from "next/headers";
 
 export async function getUserProfile() {
   const sessionData = await auth.api.getSession({
-    headers: await headers()
-  })
+    headers: await headers(),
+  });
 
   if (!sessionData) {
     return null;

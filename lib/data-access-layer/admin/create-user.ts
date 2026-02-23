@@ -50,7 +50,7 @@ export async function createUser(previousState: unknown, formData: FormData) {
         email,
         password,
         name: `${first_name} ${last_name}`,
-        role: role as string,
+        role: role as "admin" | "user",
         data: {
           first_name,
           last_name,

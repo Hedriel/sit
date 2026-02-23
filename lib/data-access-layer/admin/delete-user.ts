@@ -5,13 +5,12 @@ import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 
 export async function deleteUser(id: string) {
-
   const { success } = await auth.api.removeUser({
     body: {
-      userId: id
+      userId: id,
     },
-    headers: await headers()
-  })
+    headers: await headers(),
+  });
 
   if (!success) {
     console.error("Error deleting user");
@@ -21,8 +20,6 @@ export async function deleteUser(id: string) {
     };
   }
 
-
-
-  revalidatePath('/admin');
+  revalidatePath("/admin");
   return { success: true };
 }

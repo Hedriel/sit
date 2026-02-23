@@ -1,10 +1,9 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useDropzone,FileRejection } from "react-dropzone";
 import { UploadCloud, X } from "lucide-react";
 import { Button } from "@heroui/button";
-import { FileRejection } from "react-dropzone";
 import Image from "next/image";
 
 export default function AvatarUpload() {

@@ -43,7 +43,6 @@ export default function UserForm({
   const lastProcessedState = useRef(state);
   const isMobile = useIsMobile();
 
-
   useEffect(() => {
     if (state?.success && state !== lastProcessedState.current) {
       lastProcessedState.current = state;

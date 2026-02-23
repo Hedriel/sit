@@ -21,6 +21,28 @@ export default [
     },
     rules: {
       ...nextPlugin.configs["core-web-vitals"].rules,
+      // Variables sin usar
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+      // Malas prácticas
+      "no-console": "warn",
+      "no-debugger": "error",
+      "no-duplicate-imports": "error",
+      "no-unreachable": "error",
+      "no-fallthrough": "error",
+      "no-implicit-coercion": "error",
+      "no-lonely-if": "warn",
+      "no-var": "error",
+      "prefer-const": "error",
+      "prefer-arrow-callback": "warn",
+      "eqeqeq": ["error", "always"],
     },
   },
 ];

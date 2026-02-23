@@ -12,15 +12,14 @@ export async function login(previousState: unknown, formData: FormData) {
 
   try {
     await auth.api.signInEmail({
-    body: {
-      email: username,
-      password,
-      rememberMe: true,
-    },
+      body: {
+        email: username,
+        password,
+        rememberMe: true,
+      },
 
-    headers: await headers(),
-  });
-
+      headers: await headers(),
+    });
   } catch (error) {
     if (error) {
       if (error instanceof APIError && error.statusCode === 401) {
@@ -35,7 +34,6 @@ export async function login(previousState: unknown, formData: FormData) {
       fieldData: { username },
     };
   }
-
 
   redirect("/");
 }

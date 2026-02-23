@@ -56,7 +56,6 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
           description: "El usuario se ha eliminado correctamente",
           color: "success",
           icon: <Trash2 size={18} />,
-
         });
       } else {
         addToast({
@@ -212,9 +211,7 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
                 </Button>
                 <Button
                   color="danger"
-                  onPress={() =>
-                    userToDelete && handleDeleteUser(userToDelete)
-                  }
+                  onPress={() => userToDelete && handleDeleteUser(userToDelete)}
                 >
                   Eliminar
                 </Button>

@@ -24,10 +24,11 @@ export default function NavLinks({
             key={link.href}
             href={link.href}
             onClick={() => setIsMenuOpen?.(false)}
-            className={`transition-all duration-300 hover:sm:scale-105 ${link.href === pathname
-              ? "text-primary"
-              : "hover:text-primary opacity-85"
-              }`}
+            className={`transition-all duration-300 hover:sm:scale-105 ${
+              link.href === pathname
+                ? "text-primary"
+                : "hover:text-primary opacity-85"
+            }`}
           >
             {link.label}
           </Link>

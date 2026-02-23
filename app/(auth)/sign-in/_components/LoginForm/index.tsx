@@ -4,7 +4,6 @@ import { useActionState } from "react";
 import { Form, Input, Button, Spinner } from "@heroui/react";
 import { login } from "@/lib/auth/actions/login";
 
-
 export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(login, undefined);
   return (
@@ -37,7 +36,7 @@ export default function LoginForm() {
           isDisabled={isPending}
           color="primary"
           type="submit"
-          className="w-full mt-6"
+          className="mt-6 w-full"
         >
           {isPending ? <Spinner size="sm" color="white" /> : "Iniciar sesión"}
         </Button>

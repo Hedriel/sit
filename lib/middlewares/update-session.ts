@@ -1,10 +1,7 @@
 import { auth } from "@/lib/auth/auth";
 import { NextResponse, type NextRequest } from "next/server";
 
-
 export async function updateSession(request: NextRequest) {
-
-
   const session = await auth.api.getSession({
     headers: request.headers,
   });
@@ -39,5 +36,4 @@ export async function updateSession(request: NextRequest) {
   }
 
   return NextResponse.next();
-
 }
