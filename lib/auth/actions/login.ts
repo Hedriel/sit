@@ -22,9 +22,8 @@ export async function login(previousState: unknown, formData: FormData) {
   });
 
   } catch (error) {
-    if (error instanceof APIError) {
-      console.log(error)
-      if (error.status === "UNAUTHORIZED") {
+    if (error) {
+      if (error instanceof APIError && error.statusCode === 401) {
         return {
           message: "Usuario o contraseña incorrectos",
           fieldData: { username },
