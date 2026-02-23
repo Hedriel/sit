@@ -4,11 +4,8 @@ import { useActionState } from "react";
 import { Form, Input, Button, Spinner } from "@heroui/react";
 import { login } from "@/lib/auth/actions/login";
 
-interface LoginFormProps {
-  onForgotPasswordClick: () => void;
-}
 
-export default function LoginForm({ onForgotPasswordClick }: LoginFormProps) {
+export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(login, undefined);
   return (
     <>
@@ -19,12 +16,12 @@ export default function LoginForm({ onForgotPasswordClick }: LoginFormProps) {
         <Input
           defaultValue={state?.fieldData?.username}
           isRequired
-          errorMessage="Ingrese un usuario valido"
-          label="Usuario"
+          errorMessage="Ingrese un correo valido"
+          label="Correo"
           labelPlacement="outside"
           name="username"
-          placeholder="Ingrese su usuario"
-          type="text"
+          placeholder="Ingrese su correo"
+          type="email"
           className="mb-4"
         />
         <Input
@@ -36,18 +33,11 @@ export default function LoginForm({ onForgotPasswordClick }: LoginFormProps) {
           placeholder="Ingrese su contraseña"
           type="password"
         />
-        <button
-          type="button"
-          className="text-primary hover:text-primary/80 mb-4 ml-auto cursor-pointer text-right text-xs transition-colors duration-300"
-          onClick={onForgotPasswordClick}
-        >
-          Olvide mi contraseña
-        </button>
         <Button
           isDisabled={isPending}
           color="primary"
           type="submit"
-          className="w-full"
+          className="w-full mt-6"
         >
           {isPending ? <Spinner size="sm" color="white" /> : "Iniciar sesión"}
         </Button>
