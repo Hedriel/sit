@@ -4,7 +4,6 @@ import { nextCookies } from "better-auth/next-js";
 import { Pool } from "pg";
 import bcrypt from "bcrypt";
 import { admin } from "better-auth/plugins";
-import { adminClient } from "better-auth/client/plugins";
 
 export const auth = betterAuth({
     database: new Pool({

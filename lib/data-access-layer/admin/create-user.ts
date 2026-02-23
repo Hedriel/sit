@@ -50,7 +50,7 @@ export async function createUser(previousState: unknown, formData: FormData) {
         email,
         password,
         name: `${first_name} ${last_name}`,
-        role: role as any,
+        role: role as string,
         data: {
           first_name,
           last_name,
@@ -61,7 +61,7 @@ export async function createUser(previousState: unknown, formData: FormData) {
 
   } catch (userError) {
     if (userError) {
-      let message = "Error al crear el usuario";
+      const message = "Error al crear el usuario";
       return {
         message,
         fieldData: { email, first_name, last_name, role, password },
