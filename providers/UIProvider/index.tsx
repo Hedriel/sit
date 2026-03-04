@@ -11,7 +11,7 @@ export function UIProvider({ children }: { children: ReactNode }) {
       <ToastProvider />
       <ThemeProvider
         attribute="class"
-        defaultTheme="system"
+        defaultTheme="light"
         enableSystem
         disableTransitionOnChange
       >
