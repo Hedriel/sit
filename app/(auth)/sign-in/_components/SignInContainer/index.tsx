@@ -5,9 +5,9 @@ import Image from "next/image";
 
 export default function SignInContainer() {
   return (
-    <div className="flex h-screen w-full flex-col overflow-hidden lg:flex-row">
+    <div className="flex h-screen max-h-[800px] w-full flex-col overflow-hidden lg:flex-row">
       {/* Left Side — Login Form */}
-      <div className="flex w-full flex-col justify-center bg-white px-8 py-12 lg:w-1/2 lg:px-20 xl:px-32 dark:bg-zinc-950">
+      <div className="mx-auto flex w-full max-w-1/2 flex-col justify-center bg-white px-8 py-12 lg:w-1/2 lg:px-20 dark:bg-zinc-950">
         {/* Logo */}
         <div className="mb-12 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600/10">

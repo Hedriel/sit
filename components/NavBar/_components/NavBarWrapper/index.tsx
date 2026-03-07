@@ -14,6 +14,7 @@ import { ThemeSwitcher } from "@/providers/UIProvider/ThemeSwitcher";
 import { useState } from "react";
 import UserCard from "@/components/UserCard";
 import NavLinks from "../NavLinks";
+import { usePathname } from "next/navigation";
 
 interface NavBarWrapperProps {
   email: string | undefined;
@@ -30,8 +31,14 @@ export default function NavBarWrapper({
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const pathname = usePathname();
+
   return (
-    <Navbar isMenuOpen={isMenuOpen} maxWidth="full">
+    <Navbar
+      className={pathname === "/sign-in" ? "hidden" : ""}
+      isMenuOpen={isMenuOpen}
+      maxWidth="full"
+    >
       <NavbarBrand className="hidden sm:flex">
         <span className="text-2xl font-bold text-inherit">S.I.T</span>
       </NavbarBrand>
