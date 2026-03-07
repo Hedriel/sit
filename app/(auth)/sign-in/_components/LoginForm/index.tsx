@@ -8,10 +8,7 @@ export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(login, undefined);
   return (
     <>
-      <h1 className="mb-10 w-full text-center text-2xl font-bold">
-        Iniciar Sesión
-      </h1>
-      <Form className="flex w-full max-w-xs flex-col" action={formAction}>
+      <Form className="flex w-full flex-col gap-5" action={formAction}>
         <Input
           defaultValue={state?.fieldData?.username}
           isRequired
@@ -19,9 +16,8 @@ export default function LoginForm() {
           label="Correo"
           labelPlacement="outside"
           name="username"
-          placeholder="Ingrese su correo"
+          placeholder="doctor@clinica.com"
           type="email"
-          className="mb-4"
         />
         <Input
           isRequired
@@ -32,18 +28,32 @@ export default function LoginForm() {
           placeholder="Ingrese su contraseña"
           type="password"
         />
+
+        <div className="flex w-full items-center justify-end">
+          <a
+            className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 hover:underline"
+            href="#"
+          >
+            ¿Olvidaste tu contraseña?
+          </a>
+        </div>
+
         <Button
           isDisabled={isPending}
           color="primary"
           type="submit"
-          className="mt-6 w-full"
+          className="mt-2 w-full font-bold"
+          size="lg"
         >
           {isPending ? <Spinner size="sm" color="white" /> : "Iniciar sesión"}
         </Button>
       </Form>
+
       {state && (
-        <div className="mt-4 text-center">
-          <p className="text-sm text-red-600">{state.message}</p>
+        <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 dark:border-red-900/50 dark:bg-red-950/30">
+          <p className="text-sm text-red-600 dark:text-red-400">
+            {state.message}
+          </p>
         </div>
       )}
     </>
