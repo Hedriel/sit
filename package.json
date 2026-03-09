@@ -4,15 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -H 0.0.0.0",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@heroui/button": "^2.2.30",
-    "@heroui/form": "^2.1.30",
-    "@heroui/input": "^2.4.31",
     "@heroui/react": "^2.8.8",
     "@heroui/theme": "^2.4.26",
     "@heroui/toast": "^2.0.20",
@@ -21,7 +19,6 @@
     "@types/bcrypt": "^6.0.0",
     "bcrypt": "^6.0.0",
     "better-auth": "^1.4.18",
-    "framer-motion": "^12.31.0",
     "lucide-react": "^0.563.0",
     "motion": "^12.31.0",
     "next": "^16.1.6",
