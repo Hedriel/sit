@@ -35,7 +35,7 @@ export default function NavBarWrapper({
 
   return (
     <Navbar
-      className={pathname === "/sign-in" ? "hidden" : ""}
+      className={`${pathname === "/sign-in" ? "hidden" : ""} absolute top-0 right-0 left-0`}
       isMenuOpen={isMenuOpen}
       maxWidth="full"
     >

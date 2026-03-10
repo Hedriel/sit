@@ -84,100 +84,101 @@ export default function UsersTableWrapper({ users }: { users: User[] }) {
 
   return (
     <>
-      <Table
-        isStriped
-        aria-label="Tabla de usuarios"
-        topContent={
-          <TopContent
-            filterValue={filterValue}
-            onClear={onClear}
-            onSearchChange={onSearchChange}
-            users={users}
-          />
-        }
-        topContentPlacement="outside"
-      >
-        <TableHeader>
-          <TableColumn>USUARIO</TableColumn>
-          <TableColumn>EMAIL</TableColumn>
-          <TableColumn>ROL</TableColumn>
-          <TableColumn align="center">ACCIONES</TableColumn>
-        </TableHeader>
-        <TableBody
-          emptyContent={"No se encontraron usuarios"}
-          items={filteredUsers}
+      <div className="pt-12">
+        <Table
+          isStriped
+          aria-label="Tabla de usuarios"
+          topContent={
+            <TopContent
+              filterValue={filterValue}
+              onClear={onClear}
+              onSearchChange={onSearchChange}
+              users={users}
+            />
+          }
+          topContentPlacement="outside"
         >
-          {(item) => (
-            <TableRow key={item.id}>
-              <TableCell className="min-w-16">
-                <UserCard
-                  className="hidden sm:inline-flex"
-                  avatarProps={{
-                    radius: "lg",
-                    src: item.image || defaultProfile.src,
-                  }}
-                  name={item.fullname}
-                />
-                <div className="sm:hidden">
-                  <p className="text-sm">{item.fullname}</p>
-                </div>
-              </TableCell>
-              <TableCell className="text-sm">{item.email}</TableCell>
-              <TableCell>
-                <Chip
-                  className="capitalize"
-                  color={statusColorMap[item.role]}
-                  size="sm"
-                  variant="flat"
-                >
-                  {item.role}
-                </Chip>
-              </TableCell>
-              <TableCell>
-                <div className="relative flex justify-center gap-2">
-                  <Tooltip content="Editar Usuario">
-                    <span
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
+          <TableHeader>
+            <TableColumn>USUARIO</TableColumn>
+            <TableColumn>EMAIL</TableColumn>
+            <TableColumn>ROL</TableColumn>
+            <TableColumn align="center">ACCIONES</TableColumn>
+          </TableHeader>
+          <TableBody
+            emptyContent={"No se encontraron usuarios"}
+            items={filteredUsers}
+          >
+            {(item) => (
+              <TableRow key={item.id}>
+                <TableCell className="min-w-16">
+                  <UserCard
+                    className="hidden sm:inline-flex"
+                    avatarProps={{
+                      radius: "lg",
+                      src: item.image || defaultProfile.src,
+                    }}
+                    name={item.fullname}
+                  />
+                  <div className="sm:hidden">
+                    <p className="text-sm">{item.fullname}</p>
+                  </div>
+                </TableCell>
+                <TableCell className="text-sm">{item.email}</TableCell>
+                <TableCell>
+                  <Chip
+                    className="capitalize"
+                    color={statusColorMap[item.role]}
+                    size="sm"
+                    variant="flat"
+                  >
+                    {item.role}
+                  </Chip>
+                </TableCell>
+                <TableCell>
+                  <div className="relative flex justify-center gap-2">
+                    <Tooltip content="Editar Usuario">
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setSelectedUser(item);
+                            onOpen();
+                          }
+                        }}
+                        onClick={() => {
                           setSelectedUser(item);
                           onOpen();
-                        }
-                      }}
-                      onClick={() => {
-                        setSelectedUser(item);
-                        onOpen();
-                      }}
-                      className="text-default-400 cursor-pointer text-lg active:opacity-50"
-                    >
-                      <PenLine size={18} />
-                    </span>
-                  </Tooltip>
-
-                  <Tooltip color="danger" content="Eliminar Usuario">
-                    <span
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          confirmDelete(item.id);
-                        }
-                      }}
-                      onClick={() => confirmDelete(item.id)}
-                      className="text-danger cursor-pointer text-lg active:opacity-50"
-                    >
-                      <Trash2 size={18} />
-                    </span>
-                  </Tooltip>
-                </div>
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+                        }}
+                        className="text-default-400 cursor-pointer text-lg active:opacity-50"
+                      >
+                        <PenLine size={18} />
+                      </span>
+                    </Tooltip>
+                    <Tooltip color="danger" content="Eliminar Usuario">
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            confirmDelete(item.id);
+                          }
+                        }}
+                        onClick={() => confirmDelete(item.id)}
+                        className="text-danger cursor-pointer text-lg active:opacity-50"
+                      >
+                        <Trash2 size={18} />
+                      </span>
+                    </Tooltip>
+                  </div>
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
       {selectedUser && (
         <UserForm
