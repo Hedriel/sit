@@ -21,7 +21,7 @@ export default function SignInContainer() {
   return (
     <div className="flex h-screen max-h-[800px] w-full flex-col overflow-hidden lg:flex-row">
       {/* Left Side — Login Form */}
-      <div className="mx-auto flex w-full max-w-1/2 flex-col justify-center bg-white px-8 py-12 lg:w-1/2 lg:px-20 dark:bg-zinc-950">
+      <div className="mx-auto flex flex-col justify-center bg-white px-8 py-12 md:max-w-1/2 lg:w-1/2 lg:px-20 dark:bg-zinc-950">
         {/* Logo */}
         <div className="mb-12 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
