@@ -3,8 +3,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/", label: "Dashboard" },
-  { href: "/admin", label: "Admin" },
+  { href: "/", label: "Turnos", roles: ["doctor", "receptionist"] },
+  { href: "/admin", label: "Admin", roles: ["admin"] },
+  { href: "/patients", label: "Pacientes", roles: ["doctor"] },
 ];
 
 export default function NavLinks({
@@ -18,7 +19,9 @@ export default function NavLinks({
   return (
     <>
       {links
-        .filter((link) => link.href !== "/admin" || role === "admin")
+        .filter(
+          (link) => link.roles.length === 0 || link.roles.includes(role),
+        )
         .map((link) => (
           <Link
             key={link.href}
